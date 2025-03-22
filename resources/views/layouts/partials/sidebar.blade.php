@@ -1,0 +1,118 @@
+<!-- Left Sidebar Start -->
+<div class="app-sidebar-menu">
+    <div class="h-100" data-simplebar>
+
+        <!--- Sidemenu -->
+        <div id="sidebar-menu">
+
+            <div class="logo-box">
+                <a href="{{ route('any', 'index') }}" class="logo logo-light">
+                    <span class="logo-sm">
+                        <img src="/images/logo-sm.png" alt="" height="22">
+                    </span>
+                    <span class="logo-lg">
+                        <img src="/images/logo-light.png" alt="" height="24">
+                    </span>
+                </a>
+                <a href="{{ route('any', 'index') }}" class="logo logo-dark">
+                    <span class="logo-sm">
+                        <img src="/images/logo-sm.png" alt="" height="22">
+                    </span>
+                    <span class="logo-lg">
+                        <img src="/images/logo-dark.png" alt="" height="24">
+                    </span>
+                </a>
+            </div>
+
+            <ul id="side-menu">
+
+                <li class="menu-title">Menu</li>
+
+              <!-- Sidebar Menu -->
+                <li>
+                    <a href="{{ route(auth()->user()->role . '.dashboard') }}">
+                        <i data-feather="home"></i>
+                        <span> Dashboard </span>
+                    </a>
+                </li>
+
+
+                <li class="menu-title">Pages</li>
+
+                <li class="menu-title mt-2">General</li>
+
+                <li>
+                    <a href="#sidebarForms" data-bs-toggle="collapse">
+                        <i data-feather="briefcase"></i>
+                        <span> Forms </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarForms">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a class="tp-link" href="{{ route('second', ['forms', 'elements'])}}">General Elements</a>
+                            </li>
+                            <li>
+                                <a class="tp-link" href="{{ route('second', ['forms', 'validation'])}}">Validation</a>
+                            </li>
+                            <li>
+                                <a class="tp-link" href="{{ route('second', ['forms', 'quilljs'])}}">Quilljs Editor</a>
+                            </li>
+                            <li>
+                                <a class="tp-link" href="{{ route('second', ['forms', 'pickers'])}}">Picker</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                @if(auth()->user()->role === 'superadmin' || auth()->user()->role === 'administrator')
+                    <li class="menu-title mt-2">Data Warga</li>
+
+                    <li>
+                        <a href="{{ route('superadmin.FormWarga') }}">
+                            <i data-feather="home"></i>
+                            <span> Tambah Data Warga </span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#sidebarTables" data-bs-toggle="collapse">
+                            <i data-feather="table"></i>
+                            <span> Blok </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="collapse" id="sidebarTables">
+                            <ul class="nav-second-level">
+                                <li>
+                                    <a class="tp-link" href="{{ route('superadmin.blok') }}">F1</a>
+                                </li>
+                                <li>
+                                    <a class="tp-link" href="{{ route('superadmin.blok') }}">F2</a>
+                                </li>
+                                <li>
+                                    <a class="tp-link" href="{{ route('superadmin.blok') }}">F3</a>
+                                </li>
+                                <li>
+                                    <a class="tp-link" href="{{ route('superadmin.blok') }}">F4</a>
+                                </li>
+                                <li>
+                                    <a class="tp-link" href="{{ route('superadmin.blok') }}">F5</a>
+                                </li>
+                                <li>
+                                    <a class="tp-link" href="{{ route('superadmin.blok') }}">F6</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                @endif
+
+            </ul>
+
+        </div>
+        <!-- End Sidebar -->
+
+        <div class="clearfix"></div>
+
+    </div>
+</div>
+<!-- Left Sidebar End -->
