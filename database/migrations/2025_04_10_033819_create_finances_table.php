@@ -10,7 +10,7 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('financials', function (Blueprint $table) {
+        Schema::create('finances', function (Blueprint $table) {
             $table->id();
             $table->date('date');
             $table->enum('type', ['income', 'expense']);
@@ -30,6 +30,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('financials');
+        Schema::dropIfExists('finances');
     }
 };
