@@ -9,18 +9,29 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, HasFactory;
 
     protected $fillable = [
-        'name', 'email', 'password', 'role', 'nik', 'tanggal_lahir',
-        'jenis_kelamin', 'tempat_lahir', 'jenis_pekerjaan', 'golongan_darah',
-        'status_perkawinan', 'tanggal_perkawinan_atau_perceraian', 'status_hubungan_keluarga'
+        'name',
+        'email',
+        'password',
+        'role',
+        'nik',
+        'tanggal_lahir',
+        'jenis_kelamin',
+        'tempat_lahir',
+        'jenis_pekerjaan',
+        'golongan_darah',
+        'status_perkawinan',
+        'tanggal_perkawinan_atau_perceraian',
+        'status_hubungan_keluarga'
     ];
 
 
 
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     public function familyCard()
