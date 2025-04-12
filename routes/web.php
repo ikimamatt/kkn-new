@@ -4,6 +4,8 @@ use App\Http\Controllers\AdministratorController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlockController;
 use App\Http\Controllers\HouseController;
+use App\Http\Controllers\BlokController;
+use App\Http\Controllers\FinanceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoutingController;
 use App\Http\Controllers\SuperAdminController;
@@ -47,7 +49,14 @@ Route::middleware('auth')->group(function () {
         Route::get('/warga/dashboard', [WargaController::class, 'index'])->name('warga.dashboard');
     });
 
-    // Additional Routes
+
+});
+
+
+Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
+    // Route::get('', [RoutingController::class, 'index'])->name('root');
+    Route::get('/keuangan', [FinanceController::class, 'index'])->name('keuangan');
+    Route::get('/home', fn() => view('index'))->name('home');
     Route::get('{first}/{second}/{third}', [RoutingController::class, 'thirdLevel'])->name('third');
     Route::get('{first}/{second}', [RoutingController::class, 'secondLevel'])->name('second');
     Route::get('{any}', [RoutingController::class, 'root'])->name('any');
