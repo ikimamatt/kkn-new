@@ -28,7 +28,7 @@
 
                 <li class="menu-title">Menu</li>
 
-              <!-- Sidebar Menu -->
+                <!-- Sidebar Menu -->
                 <li>
                     <a href="{{ route(auth()->user()->role . '.dashboard') }}">
                         <i data-feather="home"></i>
@@ -36,8 +36,12 @@
                     </a>
                 </li>
 
-
-                <li class="menu-title">Pages</li>
+                <li>
+                    <a href="{{ route('keuangan') }}">
+                        <i data-feather="pie-chart"></i>
+                        <span>Keuangan</span>
+                    </a>
+                </li>
 
                 <li class="menu-title mt-2">General</li>
 
@@ -50,22 +54,23 @@
                     <div class="collapse" id="sidebarForms">
                         <ul class="nav-second-level">
                             <li>
-                                <a class="tp-link" href="{{ route('second', ['forms', 'elements'])}}">General Elements</a>
+                                <a class="tp-link" href="{{ route('second', ['forms', 'elements']) }}">General
+                                    Elements</a>
                             </li>
                             <li>
-                                <a class="tp-link" href="{{ route('second', ['forms', 'validation'])}}">Validation</a>
+                                <a class="tp-link" href="{{ route('second', ['forms', 'validation']) }}">Validation</a>
                             </li>
                             <li>
-                                <a class="tp-link" href="{{ route('second', ['forms', 'quilljs'])}}">Quilljs Editor</a>
+                                <a class="tp-link" href="{{ route('second', ['forms', 'quilljs']) }}">Quilljs Editor</a>
                             </li>
                             <li>
-                                <a class="tp-link" href="{{ route('second', ['forms', 'pickers'])}}">Picker</a>
+                                <a class="tp-link" href="{{ route('second', ['forms', 'pickers']) }}">Picker</a>
                             </li>
                         </ul>
                     </div>
                 </li>
 
-                @if(auth()->user()->role === 'superadmin' || auth()->user()->role === 'administrator')
+                @if (auth()->user()->role === 'superadmin' || auth()->user()->role === 'administrator')
                     <li class="menu-title mt-2">Data Warga</li>
 
                     <li>

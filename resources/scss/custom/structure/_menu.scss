@@ -1,4 +1,4 @@
-// 
+//
 // menu.scss
 //
 
@@ -13,10 +13,10 @@
 .content-page {
     margin-left: $sidebar-width;
     overflow: hidden;
-    padding: 0 12px 65px 12px;
+    padding: 0 12px 12px 12px;
     min-height: 80vh;
     margin-top: $topbar-height;
-    transition: all .1s ease-out;
+    transition: all 0.1s ease-out;
 }
 
 .logo-box {
@@ -25,7 +25,7 @@
     position: fixed;
     padding: 0 20px;
     top: 0;
-    transition: all .1s ease-out;
+    transition: all 0.1s ease-out;
 
     .logo {
         line-height: $topbar-height;
@@ -51,7 +51,7 @@
     bottom: 0;
     padding-top: $topbar-height;
     position: fixed;
-    transition: all .1s ease-out;
+    transition: all 0.1s ease-out;
     top: 0;
     box-shadow: $box-shadow-sm;
 }
@@ -59,12 +59,12 @@
 // Sidebar
 #sidebar-menu {
     padding: 0px 9px 0px 9px;
-    >ul {
+    > ul {
         list-style: none;
         padding: 0;
 
-        >li {
-            >a {
+        > li {
+            > a {
                 color: $sidebar-item;
                 display: block;
                 padding: 10px 20px;
@@ -73,7 +73,7 @@
                 font-size: $sidebar-item-size;
                 font-weight: 500;
 
-                >span {
+                > span {
                     vertical-align: middle;
                 }
 
@@ -132,7 +132,7 @@
 
     .menu-title {
         padding: 8px 20px;
-        letter-spacing: .05em;
+        letter-spacing: 0.05em;
         pointer-events: none;
         font-weight: 600;
         cursor: default;
@@ -143,15 +143,14 @@
     }
 
     .menuitem-active {
-
-        >a,
+        > a,
         .active {
             color: $sidebar-item-active;
         }
         .tp-link {
             &.active {
                 background-color: $sidebar-item-active-bg;
-                transition: color .2s ease;
+                transition: color 0.2s ease;
                 border-radius: 0.475rem;
             }
         }
@@ -175,14 +174,14 @@
         }
 
         &.active {
-            >a {
+            > a {
                 color: $sidebar-item-active;
             }
         }
         .tp-link {
             &.active {
                 background-color: $sidebar-item-active-bg;
-                transition: color .2s ease;
+                transition: color 0.2s ease;
                 border-radius: 0.475rem;
             }
         }
@@ -190,11 +189,11 @@
 }
 
 .menu-arrow {
-    transition: transform .15s;
+    transition: transform 0.15s;
     position: absolute;
     right: 20px;
     display: inline-block;
-    font-family: 'Material Design Icons';
+    font-family: "Material Design Icons";
     text-rendering: auto;
     line-height: 1.5rem;
     font-size: 1.1rem;
@@ -206,15 +205,15 @@
 }
 
 li {
-    >a[aria-expanded="true"] {
-        >span.menu-arrow {
+    > a[aria-expanded="true"] {
+        > span.menu-arrow {
             transform: rotate(90deg);
         }
     }
 
     &.menuitem-active {
-        >a:not(.collapsed) {
-            >span.menu-arrow {
+        > a:not(.collapsed) {
+            > span.menu-arrow {
                 transform: rotate(90deg);
             }
         }
@@ -259,7 +258,6 @@ li {
 // Sidebar Dark
 body[data-menu-color="dark"] {
     .logo-box {
-
         .logo-dark {
             display: none;
         }
@@ -274,9 +272,9 @@ body[data-menu-color="dark"] {
         box-shadow: none;
 
         #sidebar-menu {
-            >ul {
-                >li {
-                    >a {
+            > ul {
+                > li {
+                    > a {
                         color: $sidebar-item-color-dark;
 
                         &:hover,
@@ -297,8 +295,7 @@ body[data-menu-color="dark"] {
             }
 
             .menuitem-active {
-
-                >a,
+                > a,
                 .active {
                     color: $sidebar-item-active-color-dark;
                 }
@@ -310,7 +307,7 @@ body[data-menu-color="dark"] {
             li {
                 a {
                     color: $sidebar-item-color-dark;
-                    transition: color .2s ease;
+                    transition: color 0.2s ease;
 
                     &:focus,
                     &:hover {
@@ -320,7 +317,7 @@ body[data-menu-color="dark"] {
                 }
 
                 &.active {
-                    >a {
+                    > a {
                         color: $sidebar-item-active-color-dark;
                         background-color: $sidebar-item-active-bg;
                         border-radius: 0.475rem;
@@ -334,9 +331,9 @@ body[data-menu-color="dark"] {
         #wrapper {
             .app-sidebar-menu {
                 #sidebar-menu {
-                    >ul {
-                        >li {
-                            &:hover>a {
+                    > ul {
+                        > li {
+                            &:hover > a {
                                 background-color: $sidebar-bg-dark;
                                 box-shadow: none;
                             }
@@ -353,7 +350,6 @@ body[data-menu-color="dark"] {
         }
     }
 }
-
 
 body[data-sidebar="hidden"] {
     .app-sidebar-menu {
