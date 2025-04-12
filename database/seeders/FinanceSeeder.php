@@ -12,7 +12,7 @@ class FinanceSeeder extends Seeder
      */
     public function run(): void
     {
-        Finance::factory()->count(10)->create([
+        Finance::factory()->count(100)->create([
             'created_by' => 1,
         ]);
     }
