@@ -69,7 +69,8 @@
                     <li class="menu-title mt-2">Data Warga</li>
 
                     <li>
-                        <a href="{{ route('superadmin.FormWarga') }}">
+                        {{-- <a href="{{ route('superadmin.FormWarga') }}"> --}}
+                            <a href="">
                             <i data-feather="home"></i>
                             <span> Tambah Data Warga </span>
                         </a>
@@ -84,22 +85,22 @@
                         <div class="collapse" id="sidebarTables">
                             <ul class="nav-second-level">
                                 <li>
-                                    <a class="tp-link" href="{{ route('superadmin.blok') }}">F1</a>
+                                    <a class="tp-link" href="{{ route('block.index') }}">F1</a>
                                 </li>
                                 <li>
-                                    <a class="tp-link" href="{{ route('superadmin.blok') }}">F2</a>
+                                    <a class="tp-link" href="{{ route('block.index') }}">F2</a>
                                 </li>
                                 <li>
-                                    <a class="tp-link" href="{{ route('superadmin.blok') }}">F3</a>
+                                    <a class="tp-link" href="{{ route('block.index') }}">F3</a>
                                 </li>
                                 <li>
-                                    <a class="tp-link" href="{{ route('superadmin.blok') }}">F4</a>
+                                    <a class="tp-link" href="{{ route('block.index') }}">F4</a>
                                 </li>
                                 <li>
-                                    <a class="tp-link" href="{{ route('superadmin.blok') }}">F5</a>
+                                    <a class="tp-link" href="{{ route('block.index') }}">F5</a>
                                 </li>
                                 <li>
-                                    <a class="tp-link" href="{{ route('superadmin.blok') }}">F6</a>
+                                    <a class="tp-link" href="{{ route('block.index') }}">F6</a>
                                 </li>
                             </ul>
                         </div>

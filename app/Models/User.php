@@ -9,27 +9,15 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use Notifiable;
-
     protected $fillable = [
         'name', 'email', 'password', 'role', 'nik', 'tanggal_lahir',
         'jenis_kelamin', 'tempat_lahir', 'jenis_pekerjaan', 'golongan_darah',
         'status_perkawinan', 'tanggal_perkawinan_atau_perceraian', 'status_hubungan_keluarga'
     ];
 
-
-
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
-
-    public function familyCard()
+    // Relasi ke Kartu Keluarga
+    public function familyCards()
     {
-        return $this->belongsTo(familyCard::class);
-    }
-
-    public function activities()
-    {
-        return $this->hasMany(Activity::class);
+        return $this->belongsToMany(FamilyCard::class);
     }
 }

@@ -7,15 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class House extends Model
 {
-    protected $fillable = ['block_id', 'house_number'];
+    protected $fillable = ['house_number', 'block_id']; // Pastikan block_id ada di sini
 
+    // Relasi ke Block
     public function block()
     {
         return $this->belongsTo(Block::class);
     }
 
-    public function familyCard()
+    // Relasi ke Kartu Keluarga
+    public function familyCards()
     {
-        return $this->hasOne(FamilyCard::class);
+        return $this->hasMany(FamilyCard::class);
     }
 }

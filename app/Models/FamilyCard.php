@@ -7,15 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class FamilyCard extends Model
 {
-    protected $fillable = ['house_id', 'kk_number'];
+    protected $fillable = ['kk_number'];
 
+    // Relasi ke Rumah
     public function house()
     {
         return $this->belongsTo(House::class);
     }
 
+    // Relasi ke User
     public function users()
     {
-        return $this->hasMany(User::class);
+        return $this->belongsToMany(User::class);
     }
 }
