@@ -8,8 +8,11 @@ use App\Http\Controllers\RoutingController;
 use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\WargaController;
 use App\Http\Middleware\CheckRole;
+use App\Http\Controllers\kegiatan\KegiatanController;
 
 require __DIR__ . '/auth.php';
+
+
 
 Route::get('/login', function () {
     return view('auth.login');
@@ -36,6 +39,7 @@ Route::middleware([CheckRole::class.':warga'])->group(function () {
     Route::get('/warga/dashboard', [WargaController::class, 'index'])->name('warga.dashboard');
 });
 
+Route::get('/kegiatan/List-Kegiatan', [KegiatanController::class, 'ListKegiatan']);
 
 Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
     // Route::get('', [RoutingController::class, 'index'])->name('root');
