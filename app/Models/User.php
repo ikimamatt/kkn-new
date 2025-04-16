@@ -9,11 +9,8 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-<<<<<<< HEAD
-=======
     use Notifiable, HasFactory;
 
->>>>>>> 9a51217143ace09924a272c3bdcce982972b3f93
     protected $fillable = [
         'name',
         'email',
@@ -30,19 +27,12 @@ class User extends Authenticatable
         'status_hubungan_keluarga'
     ];
 
-<<<<<<< HEAD
-    // Relasi ke Kartu Keluarga
-    public function familyCards()
-=======
-
-
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    public function familyCard()
->>>>>>> 9a51217143ace09924a272c3bdcce982972b3f93
+    public function familyCards()
     {
         return $this->belongsToMany(FamilyCard::class);
     }
