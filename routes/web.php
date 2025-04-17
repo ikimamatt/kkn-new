@@ -39,6 +39,7 @@ Route::middleware([CheckRole::class . ':warga'])->group(function () {
 });
 
 Route::get('/kegiatan/List-Kegiatan', [KegiatanController::class, 'ListKegiatan']);
+Route::get('/kegiatan/absensi', [KegiatanController::class, 'absensi']);
 
 Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
     // Route::get('', [RoutingController::class, 'index'])->name('root');
