@@ -37,7 +37,8 @@
                 </li>
 
                 <li>
-                    <a href="{{ route('keuangan') }}">
+                    <a href="{{ route('keuangan') }}"
+                        class="{{ request()->is('keuangan') || request()->is('superadmin/keuangan') ? 'text-primary' : '' }}">
                         <i data-feather="pie-chart"></i>
                         <span>Keuangan</span>
                     </a>
@@ -75,7 +76,7 @@
 
                     <li>
                         {{-- <a href="{{ route('superadmin.FormWarga') }}"> --}}
-                            <a href="">
+                        <a href="">
                             <i data-feather="home"></i>
                             <span> Tambah Data Warga </span>
                         </a>

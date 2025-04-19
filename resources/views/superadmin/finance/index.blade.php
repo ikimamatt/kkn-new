@@ -44,6 +44,9 @@
                                     <th>Harga Satuan (Rp.)</th>
                                     <th>Total (Rp.)</th>
                                     <th>Keterangan</th>
+                                    @if (auth()->user()->role === 'superadmin' || auth()->user()->role === 'admin')
+                                        <th>Aksi</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody class="text-center">
@@ -57,6 +60,24 @@
                                         <td>{{ number_format($finance->unit_price ?? 0, 0, ',', '.') }}</td>
                                         <td><strong>{{ number_format($finance->total, 0, ',', '.') }}</strong></td>
                                         <td>{{ $finance->description ?? '-' }}</td>
+                                        @if (auth()->user()->role === 'superadmin' || auth()->user()->role === 'admin')
+                                            <td>
+                                                <div class="d-flex gap-2 justify-content-center">
+                                                    <btn class="btn btn-sm btn-warning">
+                                                        <i data-feather="edit"></i>
+                                                    </btn>
+                                                    <form action="" class="d-inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-sm btn-danger"
+                                                            onclick="return confirm('Yakin hapus?')">
+                                                            <i data-feather="trash"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        @endif
+
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -64,6 +85,9 @@
 
                         <div class="d-flex justify-content-between align-items-center mt-3">
                             <div>
+                                @if (auth()->user()->role === 'superadmin' || auth()->user()->role === 'admin')
+                                    <button class="btn btn-success ms-4">Tambah Data</button>
+                                @endif
                             </div>
                             <div class="d-flex align-items-center justify-content-center gap-4">
                                 <div class="mb-2">
