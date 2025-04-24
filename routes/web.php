@@ -35,7 +35,12 @@ Route::middleware('auth')->group(function () {
 
         Route::resource('/superadmin/keuangan', SuperadminFinanceController::class)
             ->except(['create', 'edit', 'show'])
-            ->name('index', 'superadmin.finance.index');
+            ->names([
+                'index' => 'superadmin.finance.index',
+                'store' => 'superadmin.finance.store',
+                'update' => 'superadmin.finance.update',
+                'destroy' => 'superadmin.finance.destroy',
+            ]);
 
         Route::get('/superadmin/dashboard', [SuperAdminController::class, 'index'])->name('superadmin.dashboard');
         // Route::get('/superadmin/dashboard/blok', [BlokController::class, 'index'])->name('superadmin.blok');
