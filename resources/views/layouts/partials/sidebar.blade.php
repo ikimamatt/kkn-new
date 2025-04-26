@@ -72,44 +72,11 @@
                 </li>
 
                 @if (auth()->user()->role === 'superadmin' || auth()->user()->role === 'administrator')
-                    <li class="menu-title mt-2">Data Warga</li>
-
                     <li>
-                        {{-- <a href="{{ route('superadmin.FormWarga') }}"> --}}
-                        <a href="">
-                            <i data-feather="home"></i>
-                            <span> Tambah Data Warga </span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#sidebarTables" data-bs-toggle="collapse">
+                        <a href="{{ route('block.index') }}">
                             <i data-feather="table"></i>
                             <span> Blok </span>
-                            <span class="menu-arrow"></span>
                         </a>
-                        <div class="collapse" id="sidebarTables">
-                            <ul class="nav-second-level">
-                                <li>
-                                    <a class="tp-link" href="{{ route('block.index') }}">F1</a>
-                                </li>
-                                <li>
-                                    <a class="tp-link" href="{{ route('block.index') }}">F2</a>
-                                </li>
-                                <li>
-                                    <a class="tp-link" href="{{ route('block.index') }}">F3</a>
-                                </li>
-                                <li>
-                                    <a class="tp-link" href="{{ route('block.index') }}">F4</a>
-                                </li>
-                                <li>
-                                    <a class="tp-link" href="{{ route('block.index') }}">F5</a>
-                                </li>
-                                <li>
-                                    <a class="tp-link" href="{{ route('block.index') }}">F6</a>
-                                </li>
-                            </ul>
-                        </div>
                     </li>
                 @endif
 
