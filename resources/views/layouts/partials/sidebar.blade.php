@@ -37,7 +37,8 @@
                 </li>
 
                 <li>
-                    <a href="{{ route('keuangan') }}">
+                    <a href="{{ route('keuangan') }}"
+                        class="{{ request()->is('keuangan') || request()->is('superadmin/keuangan') ? 'text-primary' : '' }}">
                         <i data-feather="pie-chart"></i>
                         <span>Keuangan</span>
                     </a>
@@ -71,10 +72,8 @@
                 </li>
 
                 @if (auth()->user()->role === 'superadmin' || auth()->user()->role === 'administrator')
-
-
                     <li>
-                        <a href="{{ route('block.index') }}" >
+                        <a href="{{ route('block.index') }}">
                             <i data-feather="table"></i>
                             <span> Blok </span>
                         </a>

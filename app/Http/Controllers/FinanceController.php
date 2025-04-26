@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Finance;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FinanceController extends Controller
 {
@@ -21,6 +22,5 @@ class FinanceController extends Controller
         $finances = $finances->paginate($perPage)->appends(request()->query());
 
         return view('finance.index', compact('finances'));
-
     }
 }
