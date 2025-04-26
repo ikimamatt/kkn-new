@@ -30,7 +30,7 @@ class FinanceController extends Controller
     public function store(Request $request)
     {
 
-        $request->validate([
+        $validated = $request->validate([
             'date' => 'required|date',
             'type' => 'required|in:income,expense',
             'category' => 'required|string',
@@ -40,18 +40,55 @@ class FinanceController extends Controller
             'description' => 'nullable|string',
         ]);
 
-        $quantity = $request->input('quantity') ?
-            $request->input('quantity') :
+        $quantity = $validated['quantity'] ?
+            $validated['quantity'] :
             null;
 
-        $total = $request->input('quantity') ?
-            $request->input('quantity') * $request->input('unit_price') :
-            $request->input('unit_price');
+        $total = $validated['quantity'] ?
+            $validated['quantity'] * $validated['unit_price'] :
+            $validated['unit_price'];
 
         $data = [...$request->all(), 'total' => $total, 'quantity' => $quantity];
 
         Finance::create($data);
 
         return redirect()->route('superadmin.finance.index')->with('success', 'Data berhasil ditambahkan');
+    }
+
+    public function update(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'date' => 'required|date',
+            'type' => 'required|in:income,expense',
+            'category' => 'required|string',
+            'item_name' => 'nullable|string',
+            'quantity' => 'nullable|numeric|min:0',
+            'unit_price' => 'nullable|numeric|min:100',
+            'description' => 'nullable|string',
+        ]);
+
+        $data = $request->except(['_token', '_method', 'id']);
+
+        $quantity = $validated['quantity'] ?
+            $validated['quantity'] :
+            null;
+
+        $total = $validated['quantity'] ?
+            $validated['quantity'] * $validated['unit_price'] :
+            $validated['unit_price'];
+
+        $data = [...$data, 'total' => $total, 'quantity' => $quantity];
+
+        Finance::where('id', operator: $id)->update($data);
+
+        return redirect()->route('superadmin.finance.index')->with('success', 'Data berhasil diubah');
+    }
+
+    public function destroy($id)
+    {
+        $finance = Finance::findOrFail($id);
+        $finance->delete();
+
+        return redirect()->route('superadmin.finance.index')->with('success', 'Data berhasil dihapus');
     }
 }
