@@ -2,63 +2,61 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\House;
 use App\Models\Block;
+use App\Models\House;
 use Illuminate\Http\Request;
 
 class HouseController extends Controller
 {
-    // Menampilkan semua rumah berdasarkan blok
-    public function index(Block $block)
-    {
-        // Mengambil semua rumah yang terkait dengan blok tertentu
-        $houses = $block->houses;
-        return view('warga.house', compact('block', 'houses'));
-    }
+    public function index($block_id)
+{
+    // Ambil blok berdasarkan ID
+    $block = Block::findOrFail($block_id);  // Menggunakan findOrFail() untuk menangani blok yang tidak ada
 
-    // Menyimpan rumah baru
+    // Ambil rumah yang terkait dengan blok
+    $houses = $block->houses;
+
+    // Kirim blok dan rumah ke tampilan
+    return view('warga.house', compact('houses', 'block'));
+}// Kirim data blok dan rumah ke view
+
+
+    // Menyimpan data rumah baru
     public function store(Request $request, Block $block)
     {
-        $request->validate(['house_number' => 'required']);
-
-        // Menyimpan rumah ke blok yang sesuai, pastikan block_id disertakan
-        $house = $block->houses()->create([
-            'house_number' => $request->house_number,  // house_number dari form
-            'block_id' => $block->id  // Menambahkan block_id yang terkait dengan blok ini
+        $request->validate([
+            'house_number' => 'required|unique:houses,house_number'
         ]);
 
-        return response()->json([
-            'message' => 'Rumah berhasil ditambahkan!',
-            'house' => $house
+        // Menyimpan rumah dengan menyertakan block_id
+        $block->houses()->create([
+            'house_number' => $request->house_number,  // Nomor rumah yang dikirimkan
         ]);
+
+        return redirect()->route('house.index', $block->id);  // Redirect ke halaman daftar rumah
     }
 
-    // Menampilkan form untuk mengedit rumah
+    // Menampilkan form edit rumah
     public function edit(House $house)
     {
-        return response()->json($house);
+        return view('warga.house.edit', compact('house'));
     }
 
     // Memperbarui data rumah
     public function update(Request $request, House $house)
     {
-        $request->validate(['house_number' => 'required']);
-
-        // Memperbarui rumah yang sesuai
-        $house->update($request->all());
-
-        return response()->json([
-            'message' => 'Rumah berhasil diperbarui!',
-            'house' => $house
+        $request->validate([
+            'house_number' => 'required|unique:houses,house_number,' . $house->id
         ]);
+
+        $house->update($request->all());
+        return redirect()->route('house.index', $house->block_id);
     }
 
     // Menghapus rumah
     public function destroy(House $house)
     {
         $house->delete();
-        return response()->json([
-            'message' => 'Rumah berhasil dihapus!'
-        ]);
+        return redirect()->route('house.index', $house->block_id);
     }
 }

@@ -11,9 +11,17 @@
 @endsection
 
 @section('content')
+
 <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
     <div class="flex-grow-1">
         <h4 class="fs-18 fw-semibold m-0">Data Rumah di Blok {{ $block->name }}</h4>
+    </div>
+    </div>
+    <div class="text-end">
+        <ol class="breadcrumb m-0 py-0">
+            <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
+            <li class="breadcrumb-item active">Data Rumah</li>
+        </ol>
     </div>
 </div>
 
@@ -30,6 +38,28 @@
                 </div>
             </div>
 
+            <!-- Modal Create -->
+            <div class="modal fade" id="createHouseModal" tabindex="-1" aria-labelledby="createHouseModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="createHouseModalLabel">Tambah Rumah</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST" action="{{ route('house.store', $block->id) }}">
+                                @csrf
+                                <div class="mb-3">
+                                    <label for="house_number" class="form-label">Nomor Rumah</label>
+                                    <input type="text" class="form-control" id="house_number" name="house_number" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="card-body">
                 <table id="fixed-header-datatable" class="table table-striped dt-responsive nowrap table-striped w-100">
                     <thead>
@@ -43,6 +73,7 @@
                             <tr>
                                 <td>{{ $house->house_number }}</td>
                                 <td>
+                                    <a href="{{ route('familyCard.index', $house->id) }}" class="btn btn-primary btn-sm">Lihat Kartu Keluarga</a>
                                     <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#updateHouseModal{{ $house->id }}">Edit</button>
                                     <form action="{{ route('house.destroy', $house->id) }}" method="POST" style="display:inline;">
                                         @csrf
@@ -52,12 +83,12 @@
                                 </td>
                             </tr>
 
-                            <!-- Modal Update -->
+                            <!-- Modal Edit -->
                             <div class="modal fade" id="updateHouseModal{{ $house->id }}" tabindex="-1" aria-labelledby="updateHouseModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-scrollable">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="updateHouseModalLabel">Update Rumah</h5>
+                                            <h5 class="modal-title" id="updateHouseModalLabel">Edit Rumah</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
@@ -66,7 +97,7 @@
                                                 @method('PUT')
                                                 <div class="mb-3">
                                                     <label for="house_number" class="form-label">Nomor Rumah</label>
-                                                    <input type="text" class="form-control" id="house_number" name="house_number" value="{{ $house->house_number }}" required>
+                                                    <input type="text" class="form-control" value="{{ $house->house_number }}" id="house_number" name="house_number" required>
                                                 </div>
                                                 <button type="submit" class="btn btn-primary">Update</button>
                                             </form>
@@ -77,29 +108,6 @@
                         @endforeach
                     </tbody>
                 </table>
-            </div>
-        </div>
-    </div>
-</div>
-
-{{-- Modal Create --}}
-<div class="modal fade" id="createHouseModal" tabindex="-1" aria-labelledby="createHouseModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="createHouseModalLabel">Tambah Rumah</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form method="POST" action="{{ route('house.store', $block->id) }}">
-                    @csrf
-                    <div class="mb-3">
-                        <label for="house_number" class="form-label">Nomor Rumah</label>
-                        <input type="text" class="form-control" id="house_number" name="house_number" required>
-                    </div>
-                    <input type="hidden" name="block_id" value="{{ $block->id }}"> <!-- Menyertakan block_id -->
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                </form>
             </div>
         </div>
     </div>
