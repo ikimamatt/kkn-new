@@ -12,6 +12,7 @@ use App\Http\Controllers\Superadmin\FinanceController as SuperadminFinanceContro
 use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\CheckRole;
+use App\Http\Controllers\KegiatanController;
 
 // Route untuk halaman login
 Route::get('/', function () {
@@ -71,7 +72,9 @@ Route::middleware('auth')->group(function () {
         Route::put('superadmin/dashboard/user/{user}', [UserController::class, 'update'])->name('user.update');  // Memperbarui anggota keluarga
         Route::delete('superadmin/dashboard/user/{user}', [UserController::class, 'destroy'])->name('user.destroy');  // Menghapus anggota keluarga
 
-
+        // Route untuk kegiatan
+        Route::get('/superadmin/dashboard/kegiatan', [KegiatanController::class, 'ListKegiatan'])->name('superadmin.kegiatan.index');
+    Route::get('/superadmin/dashboard/absensi', [KegiatanController::class, 'absensi'])->name('superadmin.kegiatan.absensi');
 
     });
 
