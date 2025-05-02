@@ -14,73 +14,63 @@
     </div>
 </div>
 
+@if(auth()->user()->role !== 'warga')
 <div class="text-start">
         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addActivityModal">Tambah Kegiatan</button>
     </div>
+@endif
 
-<div class="card-body mt-3">
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Nama Kegiatan</th>
-                <th>Tanggal</th>
-                <th>Deskripsi</th>
-                <th>Dokumentasi</th>
+<div class="card-body mt-3 table-responsive">
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Nama Kegiatan</th>
+            <th>Tanggal</th>
+            <th>Deskripsi</th>
+            <th>Dokumentasi</th>
+            @if(auth()->user()->role !== 'warga')
                 <th>Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Senam Pagi</td>
-                <td>2025-10-10</td>
-                <td>Kegiatan senam pagi bersama warga</td>
-                <td>
-                    <div class="d-flex overflow-auto" style="max-width: 300px;">
-                        <img src="path/to/image1.jpg" class="img-thumbnail me-2" style="width: 100px; height: 100px;">
-                        <img src="path/to/image2.jpg" class="img-thumbnail me-2" style="width: 100px; height: 100px;">
-                    </div>
-                </td>
-                <td>
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">Upload Foto</button>
-                    <button class="btn btn-primary btn-danger">Hapus</button>
-                </td>
-            </tr>
-            <tr>
-                <td>Pelatihan Web</td>
-                <td>2025-10-10</td>
-                <td>Kegiatan pelatihan web kepada warga dan pengurus rt</td>
-                <td>
-                    <div class="d-flex overflow-auto" style="max-width: 300px;">
-                        <img src="path/to/image1.jpg" class="img-thumbnail me-2" style="width: 100px; height: 100px;">
-                        <img src="path/to/image2.jpg" class="img-thumbnail me-2" style="width: 100px; height: 100px;">
-                    </div>
-                </td>
-                <td>
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">Upload Foto</button>
-                    <button class="btn btn-primary btn-danger">Hapus</button>
-                </td>
-            </tr>
-            
-        </tbody>
-    </table>
-</div>
+            @endif
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($kegiatan as $item)
+        <tr>
+            <td>{{ $item->nama_kegiatan }}</td>
+            <td>{{ $item->tanggal }}</td>
+            <td>{{ $item->deskripsi }}</td>
+            <td>
+                <div class="d-flex overflow-auto" style="max-width: 300px;">
+                    @foreach (json_decode($item->dokumentasi ?? '[]', true) as $img)
+                        <img src="{{ asset('storage/' . $img) }}" class="img-thumbnail me-2" style="width: 100px; height: 100px;">
+                    @endforeach
+                </div>
+            </td>
+            @if(auth()->user()->role !== 'warga')
+            <td>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal{{ $item->id }}">Upload Foto</button>
+            </td>
+            @endif
+        </tr>
 
-<!-- Modal untuk Upload Foto -->
-<div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
+
+<!-- Modal Upload Foto Per Kegiatan -->
+<div class="modal fade" id="uploadModal{{ $item->id }}" tabindex="-1" aria-labelledby="uploadModalLabel{{ $item->id }}" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="uploadModalLabel">Upload Foto Dokumentasi</h5>
+                <h5 class="modal-title">Upload Foto Dokumentasi</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form action="{{ route('kegiatan.upload', $item->id) }}" method="POST" enctype="multipart/form-data">
+                    @csrf
                     <div class="mb-3">
-                        <label for="formFile" class="form-label">Pilih Foto</label>
-                        <input class="form-control" type="file" id="formFile" onchange="previewImage(event)">
+                        <label class="form-label">Pilih Foto</label>
+                        <input class="form-control" type="file" name="foto" required onchange="previewImage(event, {{ $item->id }})">
                     </div>
                     <div class="mb-3">
-                        <img id="imagePreview" src="#" alt="Preview Foto" style="display: none; max-width: 100%; height: auto; border: 1px solid #ddd; padding: 5px;" />
+                        <img id="imagePreview{{ $item->id }}" src="#" alt="Preview Foto" style="display: none; max-width: 100%; height: auto; border: 1px solid #ddd; padding: 5px;" />
                     </div>
                     <button type="submit" class="btn btn-primary">Unggah</button>
                 </form>
@@ -88,6 +78,9 @@
         </div>
     </div>
 </div>
+@endforeach
+    </tbody>
+</table>
 
 <!-- Modal untuk Tambah Kegiatan -->
 <div class="modal fade" id="addActivityModal" tabindex="-1" aria-labelledby="addActivityModalLabel" aria-hidden="true">
@@ -98,21 +91,23 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="activityName" class="form-label">Nama Kegiatan</label>
-                        <input type="text" class="form-control" id="activityName" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="activityDate" class="form-label">Tanggal</label>
-                        <input type="date" class="form-control" id="activityDate" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="activityDate" class="form-label">Deskripsi</label>
-                        <input type="date" class="form-control" id="activityDesc" required>
-                    </div>
-                    <button type="submit" class="btn btn-success">Tambah</button>
-                </form>
+            <form method="POST" action="{{ route('kegiatan.store') }}" enctype="multipart/form-data">
+    @csrf
+    <div class="mb-3">
+        <label for="activityName" class="form-label">Nama Kegiatan</label>
+        <input type="text" class="form-control" id="activityName" name="nama_kegiatan" required>
+    </div>
+    <div class="mb-3">
+        <label for="activityDate" class="form-label">Tanggal</label>
+        <input type="date" class="form-control" id="activityDate" name="tanggal" required>
+    </div>
+    <div class="mb-3">
+        <label for="activityDesc" class="form-label">Deskripsi</label>
+        <textarea class="form-control" id="activityDesc" name="deskripsi" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-success">Tambah</button>
+</form>
+
             </div>
         </div>
     </div>
@@ -122,15 +117,15 @@
 
 @section('script')
 <script>
-    function previewImage(event) {
-        var input = event.target;
-        var reader = new FileReader();
-        reader.onload = function(){
-            var img = document.getElementById('imagePreview');
-            img.src = reader.result;
-            img.style.display = 'block';
-        };
-        reader.readAsDataURL(input.files[0]);
-    }
+function previewImage(event, id) {
+    const reader = new FileReader();
+    reader.onload = function() {
+        const img = document.getElementById('imagePreview' + id);
+        img.src = reader.result;
+        img.style.display = 'block';
+    };
+    reader.readAsDataURL(event.target.files[0]);
+}
+
 </script>
 @endsection

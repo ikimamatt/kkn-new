@@ -72,13 +72,14 @@ Route::middleware('auth')->group(function () {
         Route::put('superadmin/dashboard/user/{user}', [UserController::class, 'update'])->name('user.update');  // Memperbarui anggota keluarga
         Route::delete('superadmin/dashboard/user/{user}', [UserController::class, 'destroy'])->name('user.destroy');  // Menghapus anggota keluarga
 
-        // Route untuk kegiatan
-        Route::get('/superadmin/dashboard/kegiatan', [KegiatanController::class, 'ListKegiatan'])->name('superadmin.kegiatan.index');
-    Route::get('/superadmin/dashboard/absensi', [KegiatanController::class, 'absensi'])->name('superadmin.kegiatan.absensi');
+        // // Route untuk kegiatan
+        // Route::get('/superadmin/dashboard/kegiatan', [KegiatanController::class, 'ListKegiatan'])->name('superadmin.kegiatan.index');
+        // Route::get('/superadmin/dashboard/absensi', [KegiatanController::class, 'absensi'])->name('superadmin.kegiatan.absensi');
 
     });
 
     // Routes untuk Administrator
+
     Route::middleware([CheckRole::class . ':administrator'])->group(function () {
         Route::get('/administrator/dashboard', [AdministratorController::class, 'index'])->name('administrator.dashboard');
     });
@@ -87,6 +88,14 @@ Route::middleware('auth')->group(function () {
     Route::middleware([CheckRole::class . ':warga'])->group(function () {
         Route::get('/warga/dashboard', [WargaController::class, 'index'])->name('warga.dashboard');
     });
+
+    // route untuk kegiatan
+    Route::get('/dashboard/kegiatan', [KegiatanController::class, 'ListKegiatan'])->name('kegiatan.index');
+    Route::get('/kegiatan', [KegiatanController::class, 'ListKegiatan'])->name('kegiatan.list');
+
+    Route::post('/dashboard/kegiatan', [KegiatanController::class, 'store'])->name('kegiatan.store');
+    Route::post('/dashboard/kegiatan/{id}/upload', [KegiatanController::class, 'uploadFoto'])->name('kegiatan.upload');
+
 
 });
 
