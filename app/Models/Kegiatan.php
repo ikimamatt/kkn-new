@@ -12,4 +12,9 @@ class Kegiatan extends Model
         'deskripsi',
         'dokumentasi',
     ];
+
+    public function absensi()
+    {
+        return $this->hasMany(Absensi::class);
+    }
 }

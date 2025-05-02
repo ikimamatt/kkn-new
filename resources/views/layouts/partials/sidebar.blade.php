@@ -81,16 +81,17 @@
     </a>
     <div class="collapse" id="sidebarKegiatan">
         <ul class="nav-second-level">
-            <li>
-                <a class="tp-link" href="{{ route('third', ['superadmin', 'dashboard', 'kegiatan']) }}">
-                    List Kegiatan
-                </a>
-            </li>
-            <li>
-                <a class="tp-link" href="{{ route('third', ['superadmin', 'dashboard', 'absensi']) }}">
-                    Absensi
-                </a>
-            </li>
+        <li>
+    <a class="tp-link" href="{{ route('kegiatan.index') }}">
+        List Kegiatan
+    </a>
+</li>
+<li>
+    <a class="tp-link" href="{{ route('kegiatan.absensi') }}">
+        Absensi
+    </a>
+</li>
+
         </ul>
     </div>
 </li>

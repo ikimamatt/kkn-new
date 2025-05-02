@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Kegiatan; 
+use App\Models\Absensi; 
 
 
 class KegiatanController extends Controller
@@ -44,7 +45,7 @@ class KegiatanController extends Controller
         $path = $request->file('foto')->store('dokumentasi', 'public');
     
         $dokumentasi = $kegiatan->dokumentasi ? json_decode($kegiatan->dokumentasi, true) : [];
-        $dokumentasi[] = $path; 
+        $dokumentasi[] = $path;
     
         $kegiatan->update([
             'dokumentasi' => json_encode($dokumentasi),
@@ -56,6 +57,36 @@ class KegiatanController extends Controller
 
     public function absensi()
     {
-        return view('kegiatan.absensi');
+        $kegiatanList = Kegiatan::all();
+        return view('kegiatan.absensi', compact('kegiatanList'));
     }
+    
+    public function absensiById($id)
+    {
+        $kegiatanList = Kegiatan::all();
+        $kegiatan = Kegiatan::findOrFail($id);
+        $absensi = Absensi::where('kegiatan_id', $id)->get();
+        return view('kegiatan.absensi', compact('kegiatanList', 'kegiatan', 'absensi'));
+    }
+    
+    public function simpanAbsensi(Request $request, $id)
+    {
+        $request->validate([
+            'nama' => 'required',
+            'alamat' => 'required',
+            'nomor_hp' => 'required',
+            'status_kehadiran' => 'required|in:Hadir,Tidak Hadir'
+        ]);
+    
+        Absensi::create([
+            'kegiatan_id' => $id,
+            'nama' => $request->nama,
+            'alamat' => $request->alamat,
+            'nomor_hp' => $request->nomor_hp,
+            'status_kehadiran' => $request->status_kehadiran,
+        ]);
+    
+        return redirect()->back()->with('success', 'Data absensi berhasil disimpan');
+    }
+
 }
