@@ -83,14 +83,14 @@ Route::middleware('auth')->group(function () {
     // Routes untuk Warga
     Route::middleware([CheckRole::class . ':warga'])->group(function () {
         Route::get('/warga/dashboard', [WargaController::class, 'index'])->name('warga.dashboard');
+        Route::get('/warga/keuangan', [FinanceController::class, 'index'])->name('warga.finance.index');
+
     });
 
 });
 
 Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
     // Route::get('', [RoutingController::class, 'index'])->name('root');
-
-    Route::get('/keuangan', [FinanceController::class, 'index'])->name('keuangan');
 
     Route::get('/keuangan', function () {
     })->middleware(['auth', 'redirect.by.role'])->name('keuangan');
