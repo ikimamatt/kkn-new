@@ -1,4 +1,4 @@
-@extends('layouts.vertical', ['title' => 'Data Blok'])
+@extends('layouts.vertical', ['title' => 'Data Rumah'])
 
 @section('css')
     @vite([
@@ -11,14 +11,16 @@
 @endsection
 
 @section('content')
+
 <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
     <div class="flex-grow-1">
-        <h4 class="fs-18 fw-semibold m-0">Data Blok</h4>
+        <h4 class="fs-18 fw-semibold m-0">Data Rumah di Blok {{ $block->name }}</h4>
+    </div>
     </div>
     <div class="text-end">
         <ol class="breadcrumb m-0 py-0">
             <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
-            <li class="breadcrumb-item active">Data Blok</li>
+            <li class="breadcrumb-item active">Data Rumah</li>
         </ol>
     </div>
 </div>
@@ -27,29 +29,29 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h5 class="card-title mb-0">Data Blok</h5>
+                <h5 class="card-title mb-0">Data Rumah</h5>
             </div>
 
             <div class="p-1">
                 <div class="d-flex flex-wrap gap-2">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createBlockModal">Tambah Blok</button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createHouseModal">Tambah Rumah</button>
                 </div>
             </div>
 
             <!-- Modal Create -->
-            <div class="modal fade" id="createBlockModal" tabindex="-1" aria-labelledby="createBlockModalLabel" aria-hidden="true">
+            <div class="modal fade" id="createHouseModal" tabindex="-1" aria-labelledby="createHouseModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-scrollable">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="createBlockModalLabel">Tambah Blok</h5>
+                            <h5 class="modal-title" id="createHouseModalLabel">Tambah Rumah</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form method="POST" action="{{ route('block.store') }}">
+                            <form method="POST" action="{{ route('house.store', $block->id) }}">
                                 @csrf
                                 <div class="mb-3">
-                                    <label for="block_name" class="form-label">Nama Blok</label>
-                                    <input type="text" class="form-control" id="block_name" name="name" required>
+                                    <label for="house_number" class="form-label">Nomor Rumah</label>
+                                    <input type="text" class="form-control" id="house_number" name="house_number" required>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Simpan</button>
                             </form>
@@ -58,45 +60,44 @@
                 </div>
             </div>
 
-
             <div class="card-body">
                 <table id="fixed-header-datatable" class="table table-striped dt-responsive nowrap table-striped w-100">
                     <thead>
                         <tr>
-                            <th>Nama Blok</th>
+                            <th>Nomor Rumah</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($blocks as $block)
+                        @foreach ($houses as $house)
                             <tr>
+                                <td>{{ $house->house_number }}</td>
                                 <td>
-                                    <a href="{{ route('house.index', $block->id) }}" class="tp-link">{{ $block->name }}</a>
-                                </td>
-                                <td>
-                                    <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#updateBlockModal{{ $block->name }}" onclick="editBlock({{ $block->id }})">Edit</button>
-                                    <form action="{{ route('block.destroy', $block->id) }}" method="POST" style="display:inline;">
+                                    <a href="{{ route('familyCard.index', $house->id) }}" class="btn btn-primary btn-sm">Lihat Kartu Keluarga</a>
+                                    <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#updateHouseModal{{ $house->id }}">Edit</button>
+                                    <form action="{{ route('house.destroy', $house->id) }}" method="POST" style="display:inline;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                                     </form>
                                 </td>
                             </tr>
-                            <div class="modal fade" id="updateBlockModal{{ $block->name }}" tabindex="-1" aria-labelledby="updateBlockModalLabel" aria-hidden="true">
+
+                            <!-- Modal Edit -->
+                            <div class="modal fade" id="updateHouseModal{{ $house->id }}" tabindex="-1" aria-labelledby="updateHouseModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-scrollable">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="updateBlockModalLabel">Update Blok</h5>
+                                            <h5 class="modal-title" id="updateHouseModalLabel">Edit Rumah</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <form method="POST" action="{{ route('block.update', $block->id) }}">
+                                            <form method="POST" action="{{ route('house.update', $house->id) }}">
                                                 @csrf
                                                 @method('PUT')
-                                                <input type="hidden" id="update_block_id" name="id">
                                                 <div class="mb-3">
-                                                    <label for="update_block_name" class="form-label">Nama Blok</label>
-                                                    <input type="text" class="form-control" value="{{ $block->name }}" id="update_block_name" name="name" required>
+                                                    <label for="house_number" class="form-label">Nomor Rumah</label>
+                                                    <input type="text" class="form-control" value="{{ $house->house_number }}" id="house_number" name="house_number" required>
                                                 </div>
                                                 <button type="submit" class="btn btn-primary">Update</button>
                                             </form>
@@ -116,16 +117,4 @@
 
 @section('script')
     @vite([ 'resources/js/pages/datatable.init.js'])
-
-    <script>
-        function editBlock(id) {
-            fetch(`/superadmin/dashboard/block/${id}`)
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('update_block_id').value = data.id;
-                    document.getElementById('update_block_name').value = data.name;
-                    document.querySelector('form').action = `/superadmin/dashboard/block/${data.id}`;
-                });
-        }
-    </script>
 @endsection

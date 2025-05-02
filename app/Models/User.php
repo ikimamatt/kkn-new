@@ -27,20 +27,13 @@ class User extends Authenticatable
         'status_hubungan_keluarga'
     ];
 
-
-
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    public function familyCard()
+    public function familyCards()
     {
-        return $this->belongsTo(familyCard::class);
-    }
-
-    public function activities()
-    {
-        return $this->hasMany(Activity::class);
+        return $this->belongsToMany(FamilyCard::class);
     }
 }

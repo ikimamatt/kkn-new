@@ -9,8 +9,10 @@ class Block extends Model
 {
     protected $fillable = ['name'];
 
+    // Relasi ke Rumah
     public function houses()
     {
         return $this->hasMany(House::class);
     }
 }
+
