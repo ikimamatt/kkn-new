@@ -41,8 +41,11 @@ Route::middleware('auth')->group(function () {
                 'update' => 'superadmin.finance.update',
                 'destroy' => 'superadmin.finance.destroy',
             ]);
+        Route::get('/superadmin/keuangan/export', [SuperadminFinanceController::class, 'export'])->name('superadmin.finance.export');
 
         Route::get('/superadmin/dashboard', [SuperAdminController::class, 'index'])->name('superadmin.dashboard');
+
+
 
         // Route resource untuk Block
         Route::resource('superadmin/dashboard/block', BlockController::class);
@@ -70,8 +73,6 @@ Route::middleware('auth')->group(function () {
         Route::get('superadmin/dashboard/user/{user}/edit', [UserController::class, 'edit'])->name('user.edit');  // Menampilkan form modal edit anggota keluarga
         Route::put('superadmin/dashboard/user/{user}', [UserController::class, 'update'])->name('user.update');  // Memperbarui anggota keluarga
         Route::delete('superadmin/dashboard/user/{user}', [UserController::class, 'destroy'])->name('user.destroy');  // Menghapus anggota keluarga
-
-
 
     });
 
