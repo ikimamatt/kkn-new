@@ -64,15 +64,12 @@ Route::middleware('auth')->group(function () {
         Route::delete('superadmin/dashboard/family-card/{familyCard}', [FamilyCardController::class, 'destroy'])->name('familyCard.destroy');  // Menghapus Kartu Keluarga
 
         // route untuk user
-        Route::get('superadmin/dashboard/family-card/{familyCard}/user', [UserController::class, 'index'])->name('user.index');  // Menampilkan anggota keluarga
-        Route::get('superadmin/dashboard/family-card/{familyCard}/user/create', [UserController::class, 'create'])->name('user.create');  // Menampilkan form modal create anggota keluarga
-        Route::post('superadmin/dashboard/family-card/{familyCard}/user', [UserController::class, 'store'])->name('user.store');  // Menyimpan anggota keluarga
-        Route::get('superadmin/dashboard/user/{user}/edit', [UserController::class, 'edit'])->name('user.edit');  // Menampilkan form modal edit anggota keluarga
-        Route::put('superadmin/dashboard/user/{user}', [UserController::class, 'update'])->name('user.update');  // Memperbarui anggota keluarga
-        Route::delete('superadmin/dashboard/user/{user}', [UserController::class, 'destroy'])->name('user.destroy');  // Menghapus anggota keluarga
-
-
-
+        Route::get('superadmin/dashboard/family-card/{familyCard}/user', [UserController::class, 'index'])->name('user.index'); // Menampilkan anggota keluarga
+        Route::get('superadmin/dashboard/family-card/{familyCard}/user/create', [UserController::class, 'create'])->name('user.create'); // Menampilkan form modal create anggota keluarga
+        Route::post('superadmin/dashboard/family-card/{familyCard}/user', [UserController::class, 'store'])->name('user.store'); // Menyimpan anggota keluarga
+        Route::get('superadmin/dashboard/user/{user}/edit', [UserController::class, 'edit'])->name('user.edit'); // Menampilkan form modal edit anggota keluarga
+        Route::put('superadmin/dashboard/user/{user}', [UserController::class, 'update'])->name('user.update'); // Memperbarui anggota keluarga
+        Route::delete('superadmin/dashboard/user/{user}', [UserController::class, 'destroy'])->name('user.destroy'); // Menghapus anggota keluarga
     });
 
     // Routes untuk Administrator
