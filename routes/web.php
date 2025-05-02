@@ -12,6 +12,7 @@ use App\Http\Controllers\Superadmin\FinanceController as SuperadminFinanceContro
 use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\CheckRole;
+use App\Http\Controllers\kegiatan\KegiatanController;
 
 // Route untuk halaman login
 Route::get('/', function () {
@@ -19,8 +20,9 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-// Route untuk halaman login (hanya bisa diakses oleh pengguna yang belum login)
-Route::middleware('guest')->get('/login', function () {
+
+
+Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
 
@@ -76,6 +78,10 @@ Route::middleware('auth')->group(function () {
     Route::middleware([CheckRole::class . ':administrator'])->group(function () {
         Route::get('/administrator/dashboard', [AdministratorController::class, 'index'])->name('administrator.dashboard');
     });
+
+
+    Route::get('/kegiatan/List-Kegiatan', [KegiatanController::class, 'ListKegiatan']);
+    Route::get('/kegiatan/absensi', [KegiatanController::class, 'absensi']);
 
     // Routes untuk Warga
     Route::middleware([CheckRole::class . ':warga'])->group(function () {
