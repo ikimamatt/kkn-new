@@ -60,10 +60,10 @@
                 <td>{{ $a->status_kehadiran }}</td>
             </tr>
             @endforeach
+
         </tbody>
     </table>
 </div>
-
 <!-- Modal Tambah Absensi -->
 <div class="modal fade" id="addModal" tabindex="-1">
     <div class="modal-dialog">

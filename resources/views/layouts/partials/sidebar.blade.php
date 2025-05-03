@@ -38,7 +38,7 @@
 
                 <li>
                     <a href="{{ route('keuangan') }}"
-                        class="{{ request()->is('keuangan') || request()->is('superadmin/keuangan') ? 'text-primary' : '' }}">
+                        class="{{ request()->is('warga/keuangan') || request()->is('superadmin/keuangan') ? 'text-primary' : '' }}">
                         <i data-feather="pie-chart"></i>
                         <span>Keuangan</span>
                     </a>
@@ -102,6 +102,24 @@
                         <a href="{{ route('block.index') }}">
                             <i data-feather="table"></i>
                             <span> Blok </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('ListKegiatan') }}">
+                            <i data-feather="table"></i>
+                            <span> Kegiatan </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('absensi') }}">
+                            <i data-feather="table"></i>
+                            <span> Absensi </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('emergency_units.index') }}">
+                            <i data-feather="alert-circle"></i>
+                            <span> Nomor Darurat </span>
                         </a>
                     </li>
                 @endif

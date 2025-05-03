@@ -71,6 +71,7 @@
                     </div>
                     <div class="mb-3">
                         <img id="imagePreview{{ $item->id }}" src="#" alt="Preview Foto" style="display: none; max-width: 100%; height: auto; border: 1px solid #ddd; padding: 5px;" />
+
                     </div>
                     <button type="submit" class="btn btn-primary">Unggah</button>
                 </form>
@@ -78,10 +79,10 @@
         </div>
     </div>
 </div>
+
 @endforeach
     </tbody>
 </table>
-
 <!-- Modal untuk Tambah Kegiatan -->
 <div class="modal fade" id="addActivityModal" tabindex="-1" aria-labelledby="addActivityModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -91,6 +92,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+
             <form method="POST" action="{{ route('kegiatan.store') }}" enctype="multipart/form-data">
     @csrf
     <div class="mb-3">
@@ -108,6 +110,7 @@
     <button type="submit" class="btn btn-success">Tambah</button>
 </form>
 
+
             </div>
         </div>
     </div>
@@ -117,6 +120,7 @@
 
 @section('script')
 <script>
+
 function previewImage(event, id) {
     const reader = new FileReader();
     reader.onload = function() {

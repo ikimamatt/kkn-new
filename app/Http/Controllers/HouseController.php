@@ -24,6 +24,7 @@ class HouseController extends Controller
     // Menyimpan data rumah baru
     public function store(Request $request, Block $block)
     {
+
         $request->validate([
             'house_number' => 'required|unique:houses,house_number'
         ]);
