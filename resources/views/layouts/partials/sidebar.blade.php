@@ -71,6 +71,32 @@
                     </div>
                 </li>
 
+                <li class="menu-title mt-2">Kegiatan</li>
+
+<li>
+    <a href="#sidebarKegiatan" data-bs-toggle="collapse">
+        <i data-feather="calendar"></i>
+        <span> Kegiatan </span>
+        <span class="menu-arrow"></span>
+    </a>
+    <div class="collapse" id="sidebarKegiatan">
+        <ul class="nav-second-level">
+        <li>
+    <a class="tp-link" href="{{ route('kegiatan.index') }}">
+        List Kegiatan
+    </a>
+</li>
+<li>
+    <a class="tp-link" href="{{ route('kegiatan.absensi') }}">
+        Absensi
+    </a>
+</li>
+
+        </ul>
+    </div>
+</li>
+
+
                 @if (auth()->user()->role === 'superadmin' || auth()->user()->role === 'administrator')
                     <li>
                         <a href="{{ route('block.index') }}">

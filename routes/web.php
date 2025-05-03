@@ -15,7 +15,7 @@ use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EmergencyController;
 use App\Http\Middleware\CheckRole;
-use App\Http\Controllers\kegiatan\KegiatanController;
+use App\Http\Controllers\KegiatanController;
 
 // Route untuk halaman login
 Route::get('/', function () {
@@ -73,13 +73,17 @@ Route::middleware('auth')->group(function () {
 
 
         // route untuk user
-        Route::get('superadmin/dashboard/family-card/{familyCard}/user', [UserController::class, 'index'])->name('user.index'); // Menampilkan anggota keluarga
-        Route::get('superadmin/dashboard/family-card/{familyCard}/user/create', [UserController::class, 'create'])->name('user.create'); // Menampilkan form modal create anggota keluarga
-        Route::post('superadmin/dashboard/family-card/{familyCard}/user', [UserController::class, 'store'])->name('user.store'); // Menyimpan anggota keluarga
-        Route::get('superadmin/dashboard/user/{user}/edit', [UserController::class, 'edit'])->name('user.edit'); // Menampilkan form modal edit anggota keluarga
-        Route::put('superadmin/dashboard/user/{user}', [UserController::class, 'update'])->name('user.update'); // Memperbarui anggota keluarga
-        Route::delete('superadmin/dashboard/user/{user}', [UserController::class, 'destroy'])->name('user.destroy'); // Menghapus anggota keluarga
+        Route::get('superadmin/dashboard/family-card/{familyCard}/user', [UserController::class, 'index'])->name('user.index');  // Menampilkan anggota keluarga
+        Route::get('superadmin/dashboard/family-card/{familyCard}/user/create', [UserController::class, 'create'])->name('user.create');  // Menampilkan form modal create anggota keluarga
+        Route::post('superadmin/dashboard/family-card/{familyCard}/user', [UserController::class, 'store'])->name('user.store');  // Menyimpan anggota keluarga
+        Route::get('superadmin/dashboard/user/{user}/edit', [UserController::class, 'edit'])->name('user.edit');  // Menampilkan form modal edit anggota keluarga
+        Route::put('superadmin/dashboard/user/{user}', [UserController::class, 'update'])->name('user.update');  // Memperbarui anggota keluarga
+        Route::delete('superadmin/dashboard/user/{user}', [UserController::class, 'destroy'])->name('user.destroy');  // Menghapus anggota keluarga
 
+        // // Route untuk kegiatan
+        // Route::get('/superadmin/dashboard/kegiatan', [KegiatanController::class, 'ListKegiatan'])->name('superadmin.kegiatan.index');
+        // Route::get('/superadmin/dashboard/absensi', [KegiatanController::class, 'absensi'])->name('superadmin.kegiatan.absensi');
+      
         // route untuk emergency
         Route::get('/emergency_units', [EmergencyController::class, 'index'])->name('emergency_units.index');
         Route::get('/emergency_units/create', [EmergencyController::class, 'createUnit'])->name('emergency_units.create');
@@ -98,9 +102,11 @@ Route::middleware('auth')->group(function () {
        
      
 
+
     });
 
     // Routes untuk Administrator
+
     Route::middleware([CheckRole::class . ':administrator'])->group(function () {
         Route::get('/administrator/dashboard', [AdministratorController::class, 'index'])->name('administrator.dashboard');
     });
@@ -115,6 +121,20 @@ Route::middleware('auth')->group(function () {
         Route::get('/warga/keuangan', [FinanceController::class, 'index'])->name('warga.finance.index');
 
     });
+
+    // route untuk kegiatan
+    Route::get('/dashboard/kegiatan', [KegiatanController::class, 'ListKegiatan'])->name('kegiatan.index');
+    Route::get('/kegiatan', [KegiatanController::class, 'ListKegiatan'])->name('kegiatan.list');
+
+    Route::post('/dashboard/kegiatan', [KegiatanController::class, 'store'])->name('kegiatan.store');
+    Route::post('/dashboard/kegiatan/{id}/upload', [KegiatanController::class, 'uploadFoto'])->name('kegiatan.upload');
+
+    //route untuk absensi
+    Route::get('/kegiatan/absensi', [KegiatanController::class, 'absensi'])->name('kegiatan.absensi');
+    Route::get('/kegiatan/{id}/absensi', [KegiatanController::class, 'absensiById'])->name('kegiatan.absensi.id');
+    Route::post('/kegiatan/{id}/absensi', [KegiatanController::class, 'simpanAbsensi'])->name('kegiatan.absensi.simpan');
+
+
 
 });
 
