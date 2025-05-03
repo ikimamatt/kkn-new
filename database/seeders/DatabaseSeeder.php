@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             HouseSeeder::class,
             FamilyCardSeeder::class,
             FamilyCardUserSeeder::class,
+            EmergencySeeder::class
 
         ]);
     }

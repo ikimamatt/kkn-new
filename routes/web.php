@@ -6,11 +6,14 @@ use App\Http\Controllers\BlockController;
 use App\Http\Controllers\HouseController;
 use App\Http\Controllers\FamilyCardController;
 use App\Http\Controllers\FinanceController;
+
+use App\Http\Controllers\WargaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoutingController;
 use App\Http\Controllers\Superadmin\FinanceController as SuperadminFinanceController;
 use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\EmergencyController;
 use App\Http\Middleware\CheckRole;
 use App\Http\Controllers\kegiatan\KegiatanController;
 
@@ -69,14 +72,32 @@ Route::middleware('auth')->group(function () {
         Route::delete('superadmin/dashboard/family-card/{familyCard}', [FamilyCardController::class, 'destroy'])->name('familyCard.destroy');  // Menghapus Kartu Keluarga
 
 
-        Route::get('superadmin/dashboard/family-card/{familyCard}/user', [UserController::class, 'index'])->name('user.index');  // Menampilkan anggota keluarga
-        Route::get('superadmin/dashboard/family-card/{familyCard}/user/create', [UserController::class, 'create'])->name('user.create');  // Menampilkan form modal create anggota keluarga
-        Route::post('superadmin/dashboard/family-card/{familyCard}/user', [UserController::class, 'store'])->name('user.store');  // Menyimpan anggota keluarga
-        Route::get('superadmin/dashboard/user/{user}/edit', [UserController::class, 'edit'])->name('user.edit');  // Menampilkan form modal edit anggota keluarga
-        Route::put('superadmin/dashboard/user/{user}', [UserController::class, 'update'])->name('user.update');  // Memperbarui anggota keluarga
-        Route::delete('superadmin/dashboard/user/{user}', [UserController::class, 'destroy'])->name('user.destroy');  // Menghapus anggota keluarga
+        // route untuk user
+        Route::get('superadmin/dashboard/family-card/{familyCard}/user', [UserController::class, 'index'])->name('user.index'); // Menampilkan anggota keluarga
+        Route::get('superadmin/dashboard/family-card/{familyCard}/user/create', [UserController::class, 'create'])->name('user.create'); // Menampilkan form modal create anggota keluarga
+        Route::post('superadmin/dashboard/family-card/{familyCard}/user', [UserController::class, 'store'])->name('user.store'); // Menyimpan anggota keluarga
+        Route::get('superadmin/dashboard/user/{user}/edit', [UserController::class, 'edit'])->name('user.edit'); // Menampilkan form modal edit anggota keluarga
+        Route::put('superadmin/dashboard/user/{user}', [UserController::class, 'update'])->name('user.update'); // Memperbarui anggota keluarga
+        Route::delete('superadmin/dashboard/user/{user}', [UserController::class, 'destroy'])->name('user.destroy'); // Menghapus anggota keluarga
 
+        // route untuk emergency
+        Route::get('/emergency_units', [EmergencyController::class, 'index'])->name('emergency_units.index');
+        Route::get('/emergency_units/create', [EmergencyController::class, 'createUnit'])->name('emergency_units.create');
+        Route::post('/emergency_units', [EmergencyController::class, 'storeUnit'])->name('emergency_units.store');
+        Route::get('/emergency_units/{unit}/edit', [EmergencyController::class, 'editUnit'])->name('emergency_units.edit');
+        Route::put('/emergency_units/{unit}', [EmergencyController::class, 'updateUnit'])->name('emergency_units.update');
+        Route::delete('/emergency_units/{unit}', [EmergencyController::class, 'destroyUnit'])->name('emergency_units.destroy');
+
+        Route::get('/emergency_units/{unit}/numbers', [EmergencyController::class, 'show'])->name('emergency_units.show');
+        Route::get('/emergency_units/{unit}/numbers/create', [EmergencyController::class, 'createNumber'])->name('emergency_numbers.create');
+        Route::post('/emergency_units/{unit}/numbers', [EmergencyController::class, 'storeNumber'])->name('emergency_numbers.store');
+        Route::get('/emergency_numbers/{number}/edit', [EmergencyController::class, 'editNumber'])->name('emergency_numbers.edit');
+        Route::put('/emergency_numbers/{number}', [EmergencyController::class, 'updateNumber'])->name('emergency_numbers.update');
+        Route::delete('/emergency_numbers/{number}', [EmergencyController::class, 'destroyNumber'])->name('emergency_numbers.destroy');
+
+       
      
+
     });
 
     // Routes untuk Administrator
@@ -85,8 +106,8 @@ Route::middleware('auth')->group(function () {
     });
 
 
-    Route::get('/kegiatan/List-Kegiatan', [KegiatanController::class, 'ListKegiatan']);
-    Route::get('/kegiatan/absensi', [KegiatanController::class, 'absensi']);
+    Route::get('/kegiatan/List-Kegiatan', [KegiatanController::class, 'ListKegiatan'])->name('ListKegiatan');
+    Route::get('/kegiatan/absensi', [KegiatanController::class, 'absensi'])->name('absensi');
 
     // Routes untuk Warga
     Route::middleware([CheckRole::class . ':warga'])->group(function () {
