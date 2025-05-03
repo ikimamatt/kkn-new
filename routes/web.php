@@ -43,8 +43,11 @@ Route::middleware('auth')->group(function () {
                 'update' => 'superadmin.finance.update',
                 'destroy' => 'superadmin.finance.destroy',
             ]);
+        Route::get('/superadmin/keuangan/export', [SuperadminFinanceController::class, 'export'])->name('superadmin.finance.export');
 
         Route::get('/superadmin/dashboard', [SuperAdminController::class, 'index'])->name('superadmin.dashboard');
+
+
 
         // Route resource untuk Block
         Route::resource('superadmin/dashboard/block', BlockController::class);
@@ -65,13 +68,15 @@ Route::middleware('auth')->group(function () {
         Route::put('superadmin/dashboard/family-card/{familyCard}', [FamilyCardController::class, 'update'])->name('familyCard.update');  // Memperbarui Kartu Keluarga
         Route::delete('superadmin/dashboard/family-card/{familyCard}', [FamilyCardController::class, 'destroy'])->name('familyCard.destroy');  // Menghapus Kartu Keluarga
 
-        // route untuk user
-        Route::get('superadmin/dashboard/family-card/{familyCard}/user', [UserController::class, 'index'])->name('user.index'); // Menampilkan anggota keluarga
-        Route::get('superadmin/dashboard/family-card/{familyCard}/user/create', [UserController::class, 'create'])->name('user.create'); // Menampilkan form modal create anggota keluarga
-        Route::post('superadmin/dashboard/family-card/{familyCard}/user', [UserController::class, 'store'])->name('user.store'); // Menyimpan anggota keluarga
-        Route::get('superadmin/dashboard/user/{user}/edit', [UserController::class, 'edit'])->name('user.edit'); // Menampilkan form modal edit anggota keluarga
-        Route::put('superadmin/dashboard/user/{user}', [UserController::class, 'update'])->name('user.update'); // Memperbarui anggota keluarga
-        Route::delete('superadmin/dashboard/user/{user}', [UserController::class, 'destroy'])->name('user.destroy'); // Menghapus anggota keluarga
+
+        Route::get('superadmin/dashboard/family-card/{familyCard}/user', [UserController::class, 'index'])->name('user.index');  // Menampilkan anggota keluarga
+        Route::get('superadmin/dashboard/family-card/{familyCard}/user/create', [UserController::class, 'create'])->name('user.create');  // Menampilkan form modal create anggota keluarga
+        Route::post('superadmin/dashboard/family-card/{familyCard}/user', [UserController::class, 'store'])->name('user.store');  // Menyimpan anggota keluarga
+        Route::get('superadmin/dashboard/user/{user}/edit', [UserController::class, 'edit'])->name('user.edit');  // Menampilkan form modal edit anggota keluarga
+        Route::put('superadmin/dashboard/user/{user}', [UserController::class, 'update'])->name('user.update');  // Memperbarui anggota keluarga
+        Route::delete('superadmin/dashboard/user/{user}', [UserController::class, 'destroy'])->name('user.destroy');  // Menghapus anggota keluarga
+
+     
     });
 
     // Routes untuk Administrator
@@ -86,14 +91,14 @@ Route::middleware('auth')->group(function () {
     // Routes untuk Warga
     Route::middleware([CheckRole::class . ':warga'])->group(function () {
         Route::get('/warga/dashboard', [WargaController::class, 'index'])->name('warga.dashboard');
+        Route::get('/warga/keuangan', [FinanceController::class, 'index'])->name('warga.finance.index');
+
     });
 
 });
 
 Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
     // Route::get('', [RoutingController::class, 'index'])->name('root');
-
-    Route::get('/keuangan', [FinanceController::class, 'index'])->name('keuangan');
 
     Route::get('/keuangan', function () {
     })->middleware(['auth', 'redirect.by.role'])->name('keuangan');
