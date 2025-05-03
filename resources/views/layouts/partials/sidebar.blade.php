@@ -38,7 +38,7 @@
 
                 <li>
                     <a href="{{ route('keuangan') }}"
-                        class="{{ request()->is('keuangan') || request()->is('superadmin/keuangan') ? 'text-primary' : '' }}">
+                        class="{{ request()->is('warga/keuangan') || request()->is('superadmin/keuangan') ? 'text-primary' : '' }}">
                         <i data-feather="pie-chart"></i>
                         <span>Keuangan</span>
                     </a>

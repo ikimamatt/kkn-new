@@ -46,8 +46,11 @@ Route::middleware('auth')->group(function () {
                 'update' => 'superadmin.finance.update',
                 'destroy' => 'superadmin.finance.destroy',
             ]);
+        Route::get('/superadmin/keuangan/export', [SuperadminFinanceController::class, 'export'])->name('superadmin.finance.export');
 
         Route::get('/superadmin/dashboard', [SuperAdminController::class, 'index'])->name('superadmin.dashboard');
+
+
 
         // Route resource untuk Block
         Route::resource('superadmin/dashboard/block', BlockController::class);
@@ -67,6 +70,7 @@ Route::middleware('auth')->group(function () {
         Route::get('superadmin/dashboard/family-card/{familyCard}/edit', [FamilyCardController::class, 'edit'])->name('familyCard.edit');  // Form untuk edit Kartu Keluarga
         Route::put('superadmin/dashboard/family-card/{familyCard}', [FamilyCardController::class, 'update'])->name('familyCard.update');  // Memperbarui Kartu Keluarga
         Route::delete('superadmin/dashboard/family-card/{familyCard}', [FamilyCardController::class, 'destroy'])->name('familyCard.destroy');  // Menghapus Kartu Keluarga
+
 
         // route untuk user
         Route::get('superadmin/dashboard/family-card/{familyCard}/user', [UserController::class, 'index'])->name('user.index'); // Menampilkan anggota keluarga
@@ -90,6 +94,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/emergency_numbers/{number}/edit', [EmergencyController::class, 'editNumber'])->name('emergency_numbers.edit');
         Route::put('/emergency_numbers/{number}', [EmergencyController::class, 'updateNumber'])->name('emergency_numbers.update');
         Route::delete('/emergency_numbers/{number}', [EmergencyController::class, 'destroyNumber'])->name('emergency_numbers.destroy');
+
+       
+     
+
     });
 
     // Routes untuk Administrator
@@ -104,14 +112,14 @@ Route::middleware('auth')->group(function () {
     // Routes untuk Warga
     Route::middleware([CheckRole::class . ':warga'])->group(function () {
         Route::get('/warga/dashboard', [WargaController::class, 'index'])->name('warga.dashboard');
+        Route::get('/warga/keuangan', [FinanceController::class, 'index'])->name('warga.finance.index');
+
     });
 
 });
 
 Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
     // Route::get('', [RoutingController::class, 'index'])->name('root');
-
-    Route::get('/keuangan', [FinanceController::class, 'index'])->name('keuangan');
 
     Route::get('/keuangan', function () {
     })->middleware(['auth', 'redirect.by.role'])->name('keuangan');

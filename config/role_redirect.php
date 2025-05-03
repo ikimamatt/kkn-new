@@ -3,7 +3,7 @@
 return [
     'keuangan' => [
         'superadmin' => 'superadmin.finance.index',
-        'admin' => 'superadmin.finance.index',
-        'warga' => 'keuangan',
+        'administrator' => 'superadmin.finance.index',
+        'warga' => 'warga.finance.index',
     ],
 ];

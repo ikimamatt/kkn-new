@@ -107,11 +107,12 @@
                         </table>
 
                         <div class="d-flex justify-content-between align-items-center mt-3">
-                            <div>
-                                <button type="button" class="btn btn-success ms-4" data-bs-toggle="modal"
+                            <div class="d-flex gap-3">
+                                <button type="button" class="btn btn-primary ms-4" data-bs-toggle="modal"
                                     data-bs-target="#modalKeuangan">
                                     Tambah Data
                                 </button>
+                                <a href="{{ route('superadmin.finance.export') }}"class="btn btn-success">Export Excel</a>
                             </div>
                             <div class="d-flex align-items-center justify-content-center gap-4">
                                 <div class="mb-2">

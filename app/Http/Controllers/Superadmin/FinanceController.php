@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Superadmin;
 use App\Http\Controllers\Controller;
 use App\Models\Finance;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\FinanceExport;
 
 class FinanceController extends Controller
 {
@@ -90,5 +92,10 @@ class FinanceController extends Controller
         $finance->delete();
 
         return redirect()->route('superadmin.finance.index')->with('success', 'Data berhasil dihapus');
+    }
+
+    public function export()
+    {
+        return Excel::download(new FinanceExport, 'keuangan.xlsx');
     }
 }
