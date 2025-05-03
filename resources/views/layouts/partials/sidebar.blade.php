@@ -105,18 +105,6 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('ListKegiatan') }}">
-                            <i data-feather="table"></i>
-                            <span> Kegiatan </span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('absensi') }}">
-                            <i data-feather="table"></i>
-                            <span> Absensi </span>
-                        </a>
-                    </li>
-                    <li>
                         <a href="{{ route('emergency_units.index') }}">
                             <i data-feather="alert-circle"></i>
                             <span> Nomor Darurat </span>
