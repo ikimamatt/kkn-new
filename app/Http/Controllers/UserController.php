@@ -5,18 +5,20 @@ namespace App\Http\Controllers;
 use App\Models\FamilyCard;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    // Menampilkan data anggota keluarga berdasarkan kartu keluarga
+    // Menampilkan daftar anggota keluarga pada Kartu Keluarga tertentu
     public function index(FamilyCard $familyCard)
     {
-        $users = $familyCard->users; // Ambil semua anggota keluarga yang terkait dengan kartu keluarga
+        // Mengambil anggota keluarga yang terhubung dengan Kartu Keluarga tertentu
+        $users = $familyCard->users;
+
+        // Menampilkan halaman dengan data anggota keluarga
         return view('warga.user', compact('users', 'familyCard'));
     }
 
-    // Menampilkan form untuk membuat anggota keluarga baru
+    // Menampilkan form untuk menambah anggota keluarga baru
     public function create(FamilyCard $familyCard)
     {
         return view('warga.user.create', compact('familyCard'));
@@ -37,15 +39,14 @@ class UserController extends Controller
             'jenis_pekerjaan' => 'required|string|max:255',
             'golongan_darah' => 'nullable|string|max:3',
             'status_perkawinan' => 'required|in:belum_kawin,kawin,cerai',
-            'tanggal_perkawinan_atau_perceraian' => 'nullable|date',
             'status_hubungan_keluarga' => 'required|in:kepala_keluarga,istri,anak',
         ]);
 
-        // Membuat user baru
+        // Menyimpan anggota keluarga baru
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password),  // Enkripsi password
+            'password' => bcrypt($request->password),
             'nik' => $request->nik,
             'tanggal_lahir' => $request->tanggal_lahir,
             'jenis_kelamin' => $request->jenis_kelamin,
@@ -53,13 +54,13 @@ class UserController extends Controller
             'jenis_pekerjaan' => $request->jenis_pekerjaan,
             'golongan_darah' => $request->golongan_darah,
             'status_perkawinan' => $request->status_perkawinan,
-            'tanggal_perkawinan_atau_perceraian' => $request->tanggal_perkawinan_atau_perceraian,
             'status_hubungan_keluarga' => $request->status_hubungan_keluarga,
         ]);
 
         // Menambahkan user ke kartu keluarga
         $familyCard->users()->attach($user->id);
 
+        // Redirect ke halaman anggota keluarga
         return redirect()->route('user.index', $familyCard->id)->with('success', 'Anggota keluarga berhasil ditambahkan!');
     }
 
@@ -69,7 +70,7 @@ class UserController extends Controller
         return view('warga.user.edit', compact('user'));
     }
 
-    // Memperbarui data anggota keluarga
+    // Memperbarui anggota keluarga
     public function update(Request $request, User $user)
     {
         // Validasi input
@@ -83,11 +84,10 @@ class UserController extends Controller
             'jenis_pekerjaan' => 'required|string|max:255',
             'golongan_darah' => 'nullable|string|max:3',
             'status_perkawinan' => 'required|in:belum_kawin,kawin,cerai',
-            'tanggal_perkawinan_atau_perceraian' => 'nullable|date',
             'status_hubungan_keluarga' => 'required|in:kepala_keluarga,istri,anak',
         ]);
 
-        // Memperbarui data user
+        // Memperbarui data anggota keluarga
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
@@ -98,24 +98,26 @@ class UserController extends Controller
             'jenis_pekerjaan' => $request->jenis_pekerjaan,
             'golongan_darah' => $request->golongan_darah,
             'status_perkawinan' => $request->status_perkawinan,
-            'tanggal_perkawinan_atau_perceraian' => $request->tanggal_perkawinan_atau_perceraian,
             'status_hubungan_keluarga' => $request->status_hubungan_keluarga,
         ]);
 
-        // Jika password diubah, kita update passwordnya
+        // Jika password diubah
         if ($request->password) {
-            $user->update(['password' => Hash::make($request->password)]);
+            $user->update(['password' => bcrypt($request->password)]);
         }
 
+        // Redirect ke halaman anggota keluarga
         return redirect()->route('user.index', $user->familyCards->first()->id)->with('success', 'Data anggota keluarga berhasil diperbarui!');
     }
 
     // Menghapus anggota keluarga
     public function destroy(User $user)
     {
-        $user->familyCards()->detach(); // Menghapus hubungan dengan kartu keluarga
-        $user->delete(); // Menghapus data user
+        // Menghapus anggota keluarga dari tabel pivot dan database
+        $user->familyCards()->detach();
+        $user->delete();
 
+        // Redirect ke halaman anggota keluarga
         return redirect()->route('user.index', $user->familyCards->first()->id)->with('success', 'Anggota keluarga berhasil dihapus!');
     }
 }

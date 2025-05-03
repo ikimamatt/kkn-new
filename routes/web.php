@@ -12,6 +12,7 @@ use App\Http\Controllers\Superadmin\FinanceController as SuperadminFinanceContro
 use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\CheckRole;
+use App\Http\Controllers\kegiatan\KegiatanController;
 
 // Route untuk halaman login
 Route::get('/', function () {
@@ -19,8 +20,9 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-// Route untuk halaman login (hanya bisa diakses oleh pengguna yang belum login)
-Route::middleware('guest')->get('/login', function () {
+
+
+Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
 
@@ -66,7 +68,7 @@ Route::middleware('auth')->group(function () {
         Route::put('superadmin/dashboard/family-card/{familyCard}', [FamilyCardController::class, 'update'])->name('familyCard.update');  // Memperbarui Kartu Keluarga
         Route::delete('superadmin/dashboard/family-card/{familyCard}', [FamilyCardController::class, 'destroy'])->name('familyCard.destroy');  // Menghapus Kartu Keluarga
 
-        // route untuk user
+
         Route::get('superadmin/dashboard/family-card/{familyCard}/user', [UserController::class, 'index'])->name('user.index');  // Menampilkan anggota keluarga
         Route::get('superadmin/dashboard/family-card/{familyCard}/user/create', [UserController::class, 'create'])->name('user.create');  // Menampilkan form modal create anggota keluarga
         Route::post('superadmin/dashboard/family-card/{familyCard}/user', [UserController::class, 'store'])->name('user.store');  // Menyimpan anggota keluarga
@@ -74,12 +76,17 @@ Route::middleware('auth')->group(function () {
         Route::put('superadmin/dashboard/user/{user}', [UserController::class, 'update'])->name('user.update');  // Memperbarui anggota keluarga
         Route::delete('superadmin/dashboard/user/{user}', [UserController::class, 'destroy'])->name('user.destroy');  // Menghapus anggota keluarga
 
+     
     });
 
     // Routes untuk Administrator
     Route::middleware([CheckRole::class . ':administrator'])->group(function () {
         Route::get('/administrator/dashboard', [AdministratorController::class, 'index'])->name('administrator.dashboard');
     });
+
+
+    Route::get('/kegiatan/List-Kegiatan', [KegiatanController::class, 'ListKegiatan']);
+    Route::get('/kegiatan/absensi', [KegiatanController::class, 'absensi']);
 
     // Routes untuk Warga
     Route::middleware([CheckRole::class . ':warga'])->group(function () {
