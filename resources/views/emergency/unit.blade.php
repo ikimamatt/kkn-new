@@ -74,10 +74,11 @@
                                 </td>
                                 <td>
                                     <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editUnitModal{{ $unit->id }}">Edit</button>
-                                    <form action="{{ route('emergency_units.destroy', $unit->id) }}" method="POST" style="display:inline;">
+
+                                    <form action="{{ route('emergency_units.destroy', $unit->id) }}" method="POST" style="display:inline;" id="delete-form-{{ $unit->id }}">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                        <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete({{ $unit->id }})">Delete</button>
                                     </form>
                                 </td>
                             </tr>

@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    // Menampilkan daftar anggota keluarga pada Kartu Keluarga tertentu
+    // Menampilkan daftar anggota keluarga berdasarkan Kartu Keluarga
     public function index(FamilyCard $familyCard)
     {
         // Mengambil anggota keluarga yang terhubung dengan Kartu Keluarga tertentu
@@ -38,7 +38,7 @@ class UserController extends Controller
             'tempat_lahir' => 'required|string|max:255',
             'jenis_pekerjaan' => 'required|string|max:255',
             'golongan_darah' => 'nullable|string|max:3',
-            'status_perkawinan' => 'required|in:belum_kawin,kawin,cerai',
+            'status_perkawinan' => 'in:belum_kawin,kawin,cerai',
             'status_hubungan_keluarga' => 'required|in:kepala_keluarga,istri,anak',
         ]);
 
@@ -118,6 +118,6 @@ class UserController extends Controller
         $user->delete();
 
         // Redirect ke halaman anggota keluarga
-        return redirect()->route('user.index', $user->familyCards->first()->id)->with('success', 'Anggota keluarga berhasil dihapus!');
+        return redirect()->back()->with('success', 'Anggota keluarga berhasil dihapus!');
     }
 }
