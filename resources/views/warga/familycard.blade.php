@@ -56,10 +56,10 @@
                                 <td>
                                     <!-- Tombol Edit dan Hapus -->
                                     <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editFamilyCardModal{{ $familyCard->id }}">Edit</button>
-                                    <form action="{{ route('familyCard.destroy', $familyCard->id) }}" method="POST" style="display:inline;">
+                                    <form action="{{ route('familyCard.destroy', $familyCard->id) }}" method="POST" style="display:inline;" id="delete-form-{{ $familyCard->id }}">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                        <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete({{ $familyCard->id }})">Delete</button>
                                     </form>
                                 </td>
                             </tr>

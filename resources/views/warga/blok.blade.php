@@ -75,11 +75,12 @@
                                 </td>
                                 <td>
                                     <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#updateBlockModal{{ $block->name }}" onclick="editBlock({{ $block->id }})">Edit</button>
-                                    <form action="{{ route('block.destroy', $block->id) }}" method="POST" style="display:inline;">
+                                    <form action="{{ route('block.destroy', $block->id) }}" method="POST" style="display:inline;" id="delete-form-{{ $block->id }}">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                        <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete({{ $block->id }})">Hapus</button>
                                     </form>
+
                                 </td>
                             </tr>
                             <div class="modal fade" id="updateBlockModal{{ $block->name }}" tabindex="-1" aria-labelledby="updateBlockModalLabel" aria-hidden="true">
@@ -111,7 +112,7 @@
         </div>
     </div>
 </div>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endsection
 
 @section('script')
@@ -128,4 +129,23 @@
                 });
         }
     </script>
+<script>
+    function confirmDelete(blockId) {
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: "Anda tidak akan bisa membatalkan ini!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, hapus!',
+            cancelButtonText: 'Tidak, batalkan!',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Jika dikonfirmasi, kirimkan form
+                document.getElementById('delete-form-' + blockId).submit();
+            }
+        });
+    }
+</script>
+
+
 @endsection

@@ -75,10 +75,10 @@
                                 <td>
                                     <a href="{{ route('familyCard.index', $house->id) }}" class="btn btn-primary btn-sm">Lihat Kartu Keluarga</a>
                                     <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#updateHouseModal{{ $house->id }}">Edit</button>
-                                    <form action="{{ route('house.destroy', $house->id) }}" method="POST" style="display:inline;">
+                                    <form action="{{ route('house.destroy', $house->id) }}" method="POST" style="display:inline;" id="delete-form-{{ $house->id }}">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                        <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete({{ $house->id }})">Delete</button>
                                     </form>
                                 </td>
                             </tr>
