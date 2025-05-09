@@ -38,37 +38,50 @@ class KegiatanController extends Controller
     public function uploadFoto(Request $request, $id)
     {
         $request->validate([
-            'foto' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'foto.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
     
         $kegiatan = Kegiatan::findOrFail($id);
-        $path = $request->file('foto')->store('dokumentasi', 'public');
     
-        $dokumentasi = $kegiatan->dokumentasi ? json_decode($kegiatan->dokumentasi, true) : [];
-        $dokumentasi[] = $path;
+        $existingDokumentasi = json_decode($kegiatan->dokumentasi ?? '[]', true);
+        $newImages = [];
     
-        $kegiatan->update([
-            'dokumentasi' => json_encode($dokumentasi),
-        ]);
+        if ($request->hasFile('foto')) {
+            foreach ($request->file('foto') as $file) {
+                if ($file->isValid()) {
+                    $path = $file->store('dokumentasi', 'public');
+                    $newImages[] = $path;
+                }
+            }
+        }
     
-        return redirect()->route('kegiatan.list')->with('success', 'Foto berhasil diupload!');
+        $kegiatan->dokumentasi = json_encode(array_filter(array_merge($existingDokumentasi, $newImages)));
+        $kegiatan->save();
+    
+        return redirect()->back()->with('success', 'Dokumentasi berhasil diunggah');
     }
+    
 
     public function uploadAbsensi(Request $request, $id)
     {
         $request->validate([
             'foto_absensi' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
-
+    
         $kegiatan = Kegiatan::findOrFail($id);
-        
-        $fotoAbsensiPath = $request->file('foto_absensi')->store('absensi', 'public');
-        
+    
+        $fotoAbsensiPath = null;
+        if ($request->file('foto_absensi')->isValid()) {
+            $fotoAbsensiPath = $request->file('foto_absensi')->store('absensi', 'public');
+        }
+    
         $absensi = json_decode($kegiatan->absensi ?? '[]', true);
+        $absensi = is_array($absensi) ? $absensi : [];
+    
         $absensi[] = $fotoAbsensiPath;
-
+    
         $kegiatan->update(['absensi' => json_encode($absensi)]);
-
+    
         return redirect()->back()->with('success', 'Foto absensi berhasil diunggah!');
     }
     
