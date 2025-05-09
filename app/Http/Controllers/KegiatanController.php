@@ -53,6 +53,24 @@ class KegiatanController extends Controller
     
         return redirect()->route('kegiatan.list')->with('success', 'Foto berhasil diupload!');
     }
+
+    public function uploadAbsensi(Request $request, $id)
+    {
+        $request->validate([
+            'foto_absensi' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        $kegiatan = Kegiatan::findOrFail($id);
+        
+        $fotoAbsensiPath = $request->file('foto_absensi')->store('absensi', 'public');
+        
+        $absensi = json_decode($kegiatan->absensi ?? '[]', true);
+        $absensi[] = $fotoAbsensiPath;
+
+        $kegiatan->update(['absensi' => json_encode($absensi)]);
+
+        return redirect()->back()->with('success', 'Foto absensi berhasil diunggah!');
+    }
     
 
     public function absensi()

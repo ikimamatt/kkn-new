@@ -11,6 +11,7 @@ class Kegiatan extends Model
         'tanggal',
         'deskripsi',
         'dokumentasi',
+        'absensi',
     ];
 
     public function absensi()
