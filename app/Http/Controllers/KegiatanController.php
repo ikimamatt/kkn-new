@@ -10,7 +10,7 @@ class KegiatanController extends Controller
 {
     public function ListKegiatan()
     {
-        $kegiatan = Kegiatan::all();
+        $kegiatan = Kegiatan::latest()->paginate(5);
         return view('kegiatan.ListKegiatan', compact('kegiatan'));
     }
 
@@ -33,6 +33,51 @@ class KegiatanController extends Controller
         return redirect()->route('kegiatan.list')->with('success', 'Kegiatan berhasil ditambahkan!');
 
     }
+
+    // Menampilkan form edit
+public function edit($id)
+{
+    $kegiatan = Kegiatan::findOrFail($id);
+    return view('kegiatan.EditKegiatan', compact('kegiatan'));
+}
+
+// Menyimpan hasil edit
+public function update(Request $request, $id)
+{
+    $request->validate([
+        'nama_kegiatan' => 'required|string|max:255',
+        'tanggal' => 'required|date',
+        'deskripsi' => 'required|string'
+    ]);
+
+    $kegiatan = Kegiatan::findOrFail($id);
+    $kegiatan->update([
+        'nama_kegiatan' => $request->nama_kegiatan,
+        'tanggal' => $request->tanggal,
+        'deskripsi' => $request->deskripsi
+    ]);
+
+    return redirect()->route('kegiatan.list')->with('success', 'Kegiatan berhasil diperbarui!');
+}
+
+// Hapus kegiatan
+public function destroy($id)
+{
+    $kegiatan = Kegiatan::findOrFail($id);
+
+    // Hapus juga file dokumentasi & absensi jika ada (opsional)
+    foreach (json_decode($kegiatan->dokumentasi ?? '[]', true) as $file) {
+        \Storage::disk('public')->delete($file);
+    }
+    foreach (json_decode($kegiatan->absensi ?? '[]', true) as $file) {
+        \Storage::disk('public')->delete($file);
+    }
+
+    $kegiatan->delete();
+
+    return redirect()->route('kegiatan.list')->with('success', 'Kegiatan berhasil dihapus!');
+}
+
 
     //method untuk mengupload gambar
     public function uploadFoto(Request $request, $id)

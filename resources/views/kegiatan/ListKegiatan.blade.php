@@ -21,7 +21,7 @@
 @endif
 
 <div class="card-body mt-3 table-responsive">
-<table class="table table-bordered table-striped table-hover">
+<table class="table table-bordered table-striped">
     <tbody>
     @foreach ($kegiatan as $item)
     <tr>
@@ -40,6 +40,15 @@
         <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#uploadAbsensiModal{{ $item->id }}">
             Upload Absensi
         </button>
+    <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editKegiatanModal{{ $item->id }}">
+        Edit
+    </button>
+
+    <form action="{{ route('kegiatan.delete', $item->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus kegiatan ini?');">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="btn btn-danger">Hapus</button>
+    </form>
     </div>
 </td>
 
@@ -106,7 +115,7 @@
 </tr>
 
 <tr>
-    <td colspan="6" style="height: 15px; background-color: #f1f4fb;"></td>
+    <td colspan="6" style="height: 15px; background-color: #f1f4fb; border:none;"></td>
 </tr>
 
 
@@ -135,6 +144,38 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Edit Kegiatan -->
+<div class="modal fade" id="editKegiatanModal{{ $item->id }}" tabindex="-1" aria-labelledby="editKegiatanModalLabel{{ $item->id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Kegiatan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{{ route('kegiatan.update', $item->id) }}">
+                    @csrf
+                    @method('PUT')
+                    <div class="mb-3">
+                        <label class="form-label">Nama Kegiatan</label>
+                        <input type="text" class="form-control" name="nama_kegiatan" value="{{ $item->nama_kegiatan }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tanggal</label>
+                        <input type="date" class="form-control" name="tanggal" value="{{ $item->tanggal }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Deskripsi</label>
+                        <textarea class="form-control" name="deskripsi" required>{{ $item->deskripsi }}</textarea>
+                    </div>
+                    <button type="submit" class="btn btn-warning">Simpan Perubahan</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 
     <!-- Modal Upload Foto Absensi -->
     <div class="modal fade" id="uploadAbsensiModal{{ $item->id }}" tabindex="-1" aria-labelledby="uploadAbsensiModalLabel{{ $item->id }}" aria-hidden="true">
@@ -206,9 +247,9 @@ function previewImage(event, id, type) {
     const files = event.target.files;
     const previewContainerId = 'imagePreview' + type + id;
     const previewContainer = document.getElementById(previewContainerId);
-
-    // Clear preview
+    
     previewContainer.innerHTML = '';
+    previewContainer.style.display = 'block';
 
     for (let i = 0; i < files.length; i++) {
         const reader = new FileReader();
