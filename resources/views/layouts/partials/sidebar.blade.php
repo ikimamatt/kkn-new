@@ -35,6 +35,7 @@
                         <span> Dashboard </span>
                     </a>
                 </li>
+                @if (auth()->user()->role === 'superadmin' || auth()->user()->role === 'administrator')
 
                 <li>
                     <a href="{{ route('keuangan') }}"
@@ -43,10 +44,16 @@
                         <span>Keuangan</span>
                     </a>
                 </li>
-
+                @endif
                 <li class="menu-title mt-2">General</li>
-
                 <li>
+                        <a href="{{ route('emergency_units.index') }}">
+                            <i data-feather="alert-circle"></i>
+                            <span> Nomor Darurat </span>
+                        </a>
+                </li>
+
+                {{-- <li>
                     <a href="#sidebarForms" data-bs-toggle="collapse">
                         <i data-feather="briefcase"></i>
                         <span> Forms </span>
@@ -69,7 +76,7 @@
                             </li>
                         </ul>
                     </div>
-                </li>
+                </li> --}}
 
                 <li class="menu-title mt-2">Kegiatan</li>
 
@@ -104,12 +111,7 @@
                             <span> Blok </span>
                         </a>
                     </li>
-                    <li>
-                        <a href="{{ route('emergency_units.index') }}">
-                            <i data-feather="alert-circle"></i>
-                            <span> Nomor Darurat </span>
-                        </a>
-                    </li>
+
                 @endif
 
             </ul>
