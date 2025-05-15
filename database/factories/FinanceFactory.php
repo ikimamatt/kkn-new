@@ -31,7 +31,7 @@ class FinanceFactory extends Factory
             'unit_price' => $unitPrice,
             'total' => $type === 'expense' ? $quantity * $unitPrice : $this->faker->numberBetween(10000, 100000),
             'description' => $this->faker->optional()->sentence(),
-            'created_by' => User::factory(),
+            'created_by' => 1,
         ];
     }
 }
