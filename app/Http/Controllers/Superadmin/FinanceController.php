@@ -13,19 +13,39 @@ class FinanceController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->get('per_page', 10);
-        $search = $request->get('search');
 
-        $finances = Finance::with('user');
+        $query = Finance::with('user')->orderBy('date')->orderBy('id');
 
-        if ($search) {
-            $finances = $finances->where('item_name', 'like', "%$search%");
-        }
+        // Hitung running balance
+        $allFinances = $query->get();
 
-        $finances = $finances->orderBy('created_at', 'desc');
+        $balance = 0;
+        $allFinances = $allFinances->map(function ($finance) use (&$balance) {
+            $balance += $finance->type === 'income'
+                ? $finance->total
+                : -$finance->total;
 
-        $finances = $finances->paginate($perPage)->appends(request()->query());
+            $finance->running_balance = $balance;
+            return $finance;
+        });
+
+        // Sort by date
+        $allFinances = $allFinances->sortByDesc('date')->values();
+
+        // Manual pagination
+        $page = $request->get('page', 1);
+        $paginated = $allFinances->slice(($page - 1) * $perPage, $perPage)->values();
+
+        $finances = new \Illuminate\Pagination\LengthAwarePaginator(
+            $paginated,
+            $allFinances->count(),
+            $perPage,
+            $page,
+            ['path' => $request->url(), 'query' => $request->query()]
+        );
 
         return view('superadmin.finance.index', compact('finances'));
+
 
     }
 
@@ -50,7 +70,7 @@ class FinanceController extends Controller
             $validated['quantity'] * $validated['unit_price'] :
             $validated['unit_price'];
 
-        $data = [...$request->all(), 'total' => $total, 'quantity' => $quantity];
+        $data = [...$validated, 'total' => $total, 'quantity' => $quantity, 'created_by' => auth()->id()];
 
         Finance::create($data);
 
