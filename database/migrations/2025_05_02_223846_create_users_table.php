@@ -13,10 +13,12 @@ return new class extends Migration
     {
             Schema::create('users', function (Blueprint $table) {
                 $table->id();
+                $table->unsignedBigInteger('family_card_id')->nullable(); // Menambahkan kolom family_card_id
+                $table->foreign('family_card_id')->references('id')->on('family_cards')->onDelete('cascade'); // Membuat foreign key ke family_cards
                 $table->string('name');
                 $table->string('email')->unique();
                 $table->string('password');
-                $table->enum('role', ['superadmin', 'administrator', 'warga']);
+                $table->enum('role', ['warga', 'administrator', 'superadmin']);
                 $table->string('nik')->unique();  // Nomor Induk Kependudukan
                 $table->date('tanggal_lahir');
                 $table->enum('jenis_kelamin', ['L', 'P']);  // L = Laki-laki, P = Perempuan

@@ -86,7 +86,50 @@
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="nik" class="form-label">NIK</label>
-                                                    <input type="text" class="form-control" value="{{ $user->nik }}" id="nik" name="nik" required>
+                                                    <input type="text" class="form-control" pattern="^\d{16}$" maxlength="16" value="{{ $user->nik }}" id="nik" name="nik" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
+                                                    <input type="date" class="form-control" value="{{ $user->tanggal_lahir }}" id="tanggal_lahir" name="tanggal_lahir" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
+                                                    <select class="form-select" id="jenis_kelamin" name="jenis_kelamin" required>
+                                                        <option value="L" {{ $user->jenis_kelamin == 'L' ? 'selected' : '' }}>Laki-laki</option>
+                                                        <option value="P" {{ $user->jenis_kelamin == 'P' ? 'selected' : '' }}>Perempuan</option>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="tempat_lahir" class="form-label">Tempat Lahir</label>
+                                                    <input type="text" class="form-control" value="{{ $user->tempat_lahir }}" id="tempat_lahir" name="tempat_lahir" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="jenis_pekerjaan" class="form-label">Jenis Pekerjaan</label>
+                                                    <input type="text" class="form-control" value="{{ $user->jenis_pekerjaan }}" id="jenis_pekerjaan" name="jenis_pekerjaan" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="golongan_darah" class="form-label">Golongan Darah</label>
+                                                    <input type="text" class="form-control" value="{{ $user->golongan_darah }}" id="golongan_darah" name="golongan_darah">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="status_perkawinan" class="form-label">Status Perkawinan</label>
+                                                    <select class="form-select" id="status_perkawinan" name="status_perkawinan" required>
+                                                        <option value="belum_kawin" {{ $user->status_perkawinan == 'belum_kawin' ? 'selected' : '' }}>Belum Kawin</option>
+                                                        <option value="kawin" {{ $user->status_perkawinan == 'kawin' ? 'selected' : '' }}>Kawin</option>
+                                                        <option value="cerai" {{ $user->status_perkawinan == 'cerai' ? 'selected' : '' }}>Cerai</option>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="tanggal_perkawinan_atau_perceraian" class="form-label">Tanggal Perkawinan atau Perceraian</label>
+                                                    <input type="date" class="form-control" value="{{ $user->tanggal_perkawinan_atau_perceraian }}" id="tanggal_perkawinan_atau_perceraian" name="tanggal_perkawinan_atau_perceraian">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="status_hubungan_keluarga" class="form-label">Status Hubungan Keluarga</label>
+                                                    <select class="form-select" id="status_hubungan_keluarga" name="status_hubungan_keluarga" required>
+                                                        <option value="kepala_keluarga" {{ $user->status_hubungan_keluarga == 'kepala_keluarga' ? 'selected' : '' }}>Kepala Keluarga</option>
+                                                        <option value="istri" {{ $user->status_hubungan_keluarga == 'istri' ? 'selected' : '' }}>Istri</option>
+                                                        <option value="anak" {{ $user->status_hubungan_keluarga == 'anak' ? 'selected' : '' }}>Anak</option>
+                                                    </select>
                                                 </div>
                                                 <button type="submit" class="btn btn-primary">Update</button>
                                             </form>
@@ -94,6 +137,7 @@
                                     </div>
                                 </div>
                             </div>
+
                         @endforeach
                     </tbody>
                 </table>
@@ -111,6 +155,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+
                 <form method="POST" action="{{ route('user.store', $familyCard->id) }}">
                     @csrf
                     <div class="mb-3">
@@ -127,7 +172,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="nik" class="form-label">Nomor Induk Kependudukan (NIK)</label>
-                        <input type="text" class="form-control" id="nik" name="nik" required>
+                        <input type="text" pattern="^\d{16}$" maxlength="16" class="form-control" id="nik" name="nik" required>
                     </div>
                     <div class="mb-3">
                         <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>

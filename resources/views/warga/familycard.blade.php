@@ -73,13 +73,21 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <form method="POST" action="{{ route('familyCard.update', $familyCard->id) }}">
+                                            <form method="POST" action="{{ route('familyCard.update', $familyCard->id) }}" enctype="multipart/form-data">
                                                 @csrf
                                                 @method('PUT')
                                                 <div class="mb-3">
                                                     <label for="kk_number" class="form-label">Nomor Kartu Keluarga</label>
                                                     <input type="text" class="form-control" value="{{ $familyCard->kk_number }}" id="kk_number" name="kk_number" required>
                                                 </div>
+                                                <div class="mb-3">
+                                                    <label for="kk_photo" class="form-label">Foto Kartu Keluarga</label>
+                                                    <input type="file" class="form-control" id="kk_photo" name="kk_photo" accept="image/*">
+
+                                                        <img src="{{ asset('storage/' . $familyCard->kk_photo) }}" alt="Foto Kartu Keluarga" class="img-thumbnail mt-2" width="150">
+
+                                                </div>
+
                                                 <button type="submit" class="btn btn-primary">Update</button>
                                             </form>
                                         </div>
@@ -102,16 +110,24 @@
                 <h5 class="modal-title" id="createFamilyCardModalLabel">Tambah Kartu Keluarga</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form method="POST" action="{{ route('familyCard.store', $house->id) }}">
-                    @csrf
-                    <div class="mb-3">
-                        <label for="kk_number" class="form-label">Nomor Kartu Keluarga</label>
-                        <input type="text" class="form-control" id="kk_number" name="kk_number" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                </form>
+           <div class="modal-body">
+    <form method="POST" action="{{ route('familyCard.store', $house->id) }}" enctype="multipart/form-data">
+        @csrf
+        <div class="mb-3">
+            <label for="kk_number" class="form-label">Nomor Kartu Keluarga</label>
+            <input type="text" class="form-control" id="kk_number" pattern="^\d{16}$" maxlength="16" name="kk_number" required>
+            <div class="invalid-feedback">
+                Nomor Kartu Keluarga harus terdiri dari 16 digit angka.
             </div>
+              <div class="mb-3">
+                    <label for="kk_photo" class="form-label">Foto Kartu Keluarga</label>
+                    <input type="file" class="form-control" id="kk_photo" name="kk_photo" accept="image/*">
+                </div>
+            </div>
+        <button type="submit" class="btn btn-primary">Simpan</button>
+    </form>
+</div>
+
         </div>
     </div>
 </div>

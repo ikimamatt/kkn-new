@@ -18,13 +18,14 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
         $this->call([
-            UserSeeder::class,
-            FinanceSeeder::class,
+
             BlockSeeder::class,
             HouseSeeder::class,
             FamilyCardSeeder::class,
-            FamilyCardUserSeeder::class,
-            EmergencySeeder::class
+            // FamilyCardUserSeeder::class,
+            EmergencySeeder::class,
+            UserSeeder::class,
+            FinanceSeeder::class,
 
         ]);
     }
