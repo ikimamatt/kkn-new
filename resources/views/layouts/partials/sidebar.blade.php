@@ -46,6 +46,15 @@
                 </li>
                 @endif
                 <li class="menu-title mt-2">General</li>
+                @if (auth()->user()->role === 'superadmin' || auth()->user()->role === 'administrator')
+                    <li>
+                        <a href="{{ route('block.index') }}">
+                            <i data-feather="table"></i>
+                            <span> Data Blok & Warga </span>
+                        </a>
+                    </li>
+
+                @endif
                 <li>
                         <a href="{{ route('emergency_units.index') }}">
                             <i data-feather="alert-circle"></i>
@@ -80,39 +89,33 @@
 
                 <li class="menu-title mt-2">Kegiatan</li>
 
-<li>
-    <a href="#sidebarKegiatan" data-bs-toggle="collapse">
-        <i data-feather="calendar"></i>
-        <span> Kegiatan </span>
-        <span class="menu-arrow"></span>
-    </a>
-    <div class="collapse" id="sidebarKegiatan">
-        <ul class="nav-second-level">
-        <li>
-    <a class="tp-link" href="{{ route('kegiatan.index') }}">
-        List Kegiatan
-    </a>
-</li>
-<li>
-    <a class="tp-link" href="{{ route('kegiatan.absensi') }}">
-        Absensi
-    </a>
-</li>
-
+                <li>
+                    <a href="#sidebarKegiatan" data-bs-toggle="collapse">
+                        <i data-feather="calendar"></i>
+                        <span> Kegiatan </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarKegiatan">
+                        <ul class="nav-second-level">
+                        <li>
+                    <a class="tp-link" href="{{ route('kegiatan.index') }}">
+                        List Kegiatan
+                    </a>
+                </li>
+                <li>
+                    <a class="tp-link" href="{{ route('kegiatan.absensi') }}">
+                        Absensi
+                    </a>
+                </li>
+                        </ul>
+                    </div>
+                </li>
         </ul>
     </div>
 </li>
 
 
-                @if (auth()->user()->role === 'superadmin' || auth()->user()->role === 'administrator')
-                    <li>
-                        <a href="{{ route('block.index') }}">
-                            <i data-feather="table"></i>
-                            <span> Blok </span>
-                        </a>
-                    </li>
 
-                @endif
 
             </ul>
 

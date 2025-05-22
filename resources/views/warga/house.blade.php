@@ -51,7 +51,8 @@
                                 @csrf
                                 <div class="mb-3">
                                     <label for="house_number" class="form-label">Nomor Rumah</label>
-                                    <input type="text" class="form-control" id="house_number" name="house_number" required>
+                                    <input type="text" class="form-control" id="house_number" name="house_number" value="{{ $block->name }}-" required>
+                                    <small>Contoh: {{ $block->name }}-1</small>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Simpan</button>
                             </form>

@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('family_cards', function (Blueprint $table) {
+       Schema::create('family_cards', function (Blueprint $table) {
             $table->id();
             $table->foreignId('house_id')->constrained()->onDelete('cascade');
             $table->string('kk_number'); // Nomor Kartu Keluarga
+            $table->string('kk_photo')->nullable(); // Foto Kartu Keluarga (nullable, because it might not be uploaded immediately)
             $table->timestamps();
         });
     }

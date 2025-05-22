@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -7,17 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class FamilyCard extends Model
 {
-    protected $fillable = ['kk_number'];
+    use HasFactory;
 
-    // Relasi ke Rumah
-    public function house()
-    {
-        return $this->belongsTo(House::class);
-    }
+    protected $fillable = ['kk_number', 'house_id', 'kk_photo'];
 
-    // Relasi ke User
     public function users()
     {
-        return $this->belongsToMany(User::class);
+        return $this->hasMany(User::class);
     }
 }
