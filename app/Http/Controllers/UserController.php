@@ -14,9 +14,13 @@ class UserController extends Controller
         return view('warga.user', compact('users', 'familyCard'));
     }
 
-    public function store(Request $request, FamilyCard $familyCard)
+    public function store(Request $request, $familyCardId)
     {
-        dd($familyCard->id , $request->all());
+        $familyCard = \App\Models\FamilyCard::find($familyCardId);
+        if (!$familyCard) {
+            return redirect()->back()->withErrors(['familyCard' => 'Family Card not found']);
+        }
+
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users,email',

@@ -13,21 +13,21 @@ return new class extends Migration
     {
             Schema::create('users', function (Blueprint $table) {
                 $table->id();
-                $table->unsignedBigInteger('family_card_id')->nullable(); // Menambahkan kolom family_card_id
-                $table->foreign('family_card_id')->references('id')->on('family_cards')->onDelete('cascade'); // Membuat foreign key ke family_cards
+                $table->unsignedBigInteger('family_card_id')->nullable(); 
+                $table->foreign('family_card_id')->references('id')->on('family_cards')->onDelete('cascade'); 
                 $table->string('name');
                 $table->string('email')->unique();
                 $table->string('password');
                 $table->enum('role', ['warga', 'administrator', 'superadmin']);
-                $table->string('nik')->unique();  // Nomor Induk Kependudukan
+                $table->string('nik')->unique();  
                 $table->date('tanggal_lahir');
-                $table->enum('jenis_kelamin', ['L', 'P']);  // L = Laki-laki, P = Perempuan
+                $table->enum('jenis_kelamin', ['L', 'P']);  
                 $table->string('tempat_lahir');
                 $table->string('jenis_pekerjaan');
-                $table->string('golongan_darah', 3)->nullable();  // O, A, B, AB
-                $table->enum('status_perkawinan', ['belum_kawin', 'kawin', 'cerai']);  // Status perkawinan
-                $table->date('tanggal_perkawinan_atau_perceraian')->nullable();  // Tanggal perkawinan atau perceraian
-                $table->enum('status_hubungan_keluarga', ['kepala_keluarga', 'istri', 'anak'])->nullable();  // Kepala keluarga, Istri, Anak
+                $table->string('golongan_darah', 3)->nullable();  
+                $table->enum('status_perkawinan', ['belum_kawin', 'kawin', 'cerai']);  
+                $table->date('tanggal_perkawinan_atau_perceraian')->nullable();  
+                $table->enum('status_hubungan_keluarga', ['kepala_keluarga', 'istri', 'anak'])->nullable();  
                 $table->timestamps();
             });
 
