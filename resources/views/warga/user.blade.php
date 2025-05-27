@@ -38,110 +38,113 @@
             </div>
 
             <div class="card-body">
-                <table id="fixed-header-datatable" class="table table-striped dt-responsive nowrap w-100">
-                    <thead>
-                        <tr>
-                            <th>Nama</th>
-                            <th>Email</th>
-                            <th>NIK</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($users as $user)
-                            <tr>
-                                <td>{{ $user->name }}</td>
-                                <td>{{ $user->email }}</td>
-                                <td>{{ $user->nik }}</td>
-                                <td>
-                                    <!-- Tombol Edit dan Hapus -->
-                                    <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editUserModal{{ $user->id }}">Edit</button>
-                                    <form action="{{ route('user.destroy', $user->id) }}" method="POST" style="display:inline;" id="delete-form-{{ $user->id }}">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete({{ $user->id }})">Delete</button>
-                                    </form>
-                                </td>
-                            </tr>
+    <div class="table-responsive"> <!-- Added this wrapper for responsiveness -->
+        <table id="fixed-header-datatable" class="table table-striped dt-responsive nowrap w-100">
+            <thead>
+                <tr>
+                    <th>Nama</th>
+                    <th>Email</th>
+                    <th>NIK</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($users as $user)
+                    <tr>
+                        <td>{{ $user->name }}</td>
+                        <td>{{ $user->email }}</td>
+                        <td>{{ $user->nik }}</td>
+                        <td>
+                            <!-- Tombol Edit dan Hapus -->
+                            <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editUserModal{{ $user->id }}">Edit</button>
+                            <form action="{{ route('user.destroy', $user->id) }}" method="POST" style="display:inline;" id="delete-form-{{ $user->id }}">
+                                @csrf
+                                @method('DELETE')
+                                <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete({{ $user->id }})">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
 
-                            <!-- Modal Edit untuk Anggota Keluarga -->
-                            <div class="modal fade" id="editUserModal{{ $user->id }}" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-scrollable">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="editUserModalLabel">Edit Anggota Keluarga</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <!-- Modal Edit untuk Anggota Keluarga -->
+                    <div class="modal fade" id="editUserModal{{ $user->id }}" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editUserModalLabel">Edit Anggota Keluarga</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="POST" action="{{ route('user.update', $user->id) }}">
+                                        @csrf
+                                        @method('PUT')
+                                        <div class="mb-3">
+                                            <label for="name" class="form-label">Nama</label>
+                                            <input type="text" class="form-control" value="{{ $user->name }}" id="name" name="name" required>
                                         </div>
-                                        <div class="modal-body">
-                                            <form method="POST" action="{{ route('user.update', $user->id) }}">
-                                                @csrf
-                                                @method('PUT')
-                                                <div class="mb-3">
-                                                    <label for="name" class="form-label">Nama</label>
-                                                    <input type="text" class="form-control" value="{{ $user->name }}" id="name" name="name" required>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="email" class="form-label">Email</label>
-                                                    <input type="email" class="form-control" value="{{ $user->email }}" id="email" name="email" required>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="nik" class="form-label">NIK</label>
-                                                    <input type="text" class="form-control" pattern="^\d{16}$" maxlength="16" value="{{ $user->nik }}" id="nik" name="nik" required>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
-                                                    <input type="date" class="form-control" value="{{ $user->tanggal_lahir }}" id="tanggal_lahir" name="tanggal_lahir" required>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
-                                                    <select class="form-select" id="jenis_kelamin" name="jenis_kelamin" required>
-                                                        <option value="L" {{ $user->jenis_kelamin == 'L' ? 'selected' : '' }}>Laki-laki</option>
-                                                        <option value="P" {{ $user->jenis_kelamin == 'P' ? 'selected' : '' }}>Perempuan</option>
-                                                    </select>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="tempat_lahir" class="form-label">Tempat Lahir</label>
-                                                    <input type="text" class="form-control" value="{{ $user->tempat_lahir }}" id="tempat_lahir" name="tempat_lahir" required>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="jenis_pekerjaan" class="form-label">Jenis Pekerjaan</label>
-                                                    <input type="text" class="form-control" value="{{ $user->jenis_pekerjaan }}" id="jenis_pekerjaan" name="jenis_pekerjaan" required>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="golongan_darah" class="form-label">Golongan Darah</label>
-                                                    <input type="text" class="form-control" value="{{ $user->golongan_darah }}" id="golongan_darah" name="golongan_darah">
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="status_perkawinan" class="form-label">Status Perkawinan</label>
-                                                    <select class="form-select" id="status_perkawinan" name="status_perkawinan" required>
-                                                        <option value="belum_kawin" {{ $user->status_perkawinan == 'belum_kawin' ? 'selected' : '' }}>Belum Kawin</option>
-                                                        <option value="kawin" {{ $user->status_perkawinan == 'kawin' ? 'selected' : '' }}>Kawin</option>
-                                                        <option value="cerai" {{ $user->status_perkawinan == 'cerai' ? 'selected' : '' }}>Cerai</option>
-                                                    </select>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="tanggal_perkawinan_atau_perceraian" class="form-label">Tanggal Perkawinan atau Perceraian</label>
-                                                    <input type="date" class="form-control" value="{{ $user->tanggal_perkawinan_atau_perceraian }}" id="tanggal_perkawinan_atau_perceraian" name="tanggal_perkawinan_atau_perceraian">
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="status_hubungan_keluarga" class="form-label">Status Hubungan Keluarga</label>
-                                                    <select class="form-select" id="status_hubungan_keluarga" name="status_hubungan_keluarga" required>
-                                                        <option value="kepala_keluarga" {{ $user->status_hubungan_keluarga == 'kepala_keluarga' ? 'selected' : '' }}>Kepala Keluarga</option>
-                                                        <option value="istri" {{ $user->status_hubungan_keluarga == 'istri' ? 'selected' : '' }}>Istri</option>
-                                                        <option value="anak" {{ $user->status_hubungan_keluarga == 'anak' ? 'selected' : '' }}>Anak</option>
-                                                    </select>
-                                                </div>
-                                                <button type="submit" class="btn btn-primary">Update</button>
-                                            </form>
+                                        <div class="mb-3">
+                                            <label for="email" class="form-label">Email</label>
+                                            <input type="email" class="form-control" value="{{ $user->email }}" id="email" name="email" required>
                                         </div>
-                                    </div>
+                                        <div class="mb-3">
+                                            <label for="nik" class="form-label">NIK</label>
+                                            <input type="text" class="form-control" pattern="^\d{16}$" maxlength="16" value="{{ $user->nik }}" id="nik" name="nik" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
+                                            <input type="date" class="form-control" value="{{ $user->tanggal_lahir }}" id="tanggal_lahir" name="tanggal_lahir" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
+                                            <select class="form-select" id="jenis_kelamin" name="jenis_kelamin" required>
+                                                <option value="L" {{ $user->jenis_kelamin == 'L' ? 'selected' : '' }}>Laki-laki</option>
+                                                <option value="P" {{ $user->jenis_kelamin == 'P' ? 'selected' : '' }}>Perempuan</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="tempat_lahir" class="form-label">Tempat Lahir</label>
+                                            <input type="text" class="form-control" value="{{ $user->tempat_lahir }}" id="tempat_lahir" name="tempat_lahir" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="jenis_pekerjaan" class="form-label">Jenis Pekerjaan</label>
+                                            <input type="text" class="form-control" value="{{ $user->jenis_pekerjaan }}" id="jenis_pekerjaan" name="jenis_pekerjaan" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="golongan_darah" class="form-label">Golongan Darah</label>
+                                            <input type="text" class="form-control" value="{{ $user->golongan_darah }}" id="golongan_darah" name="golongan_darah">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="status_perkawinan" class="form-label">Status Perkawinan</label>
+                                            <select class="form-select" id="status_perkawinan" name="status_perkawinan" required>
+                                                <option value="belum_kawin" {{ $user->status_perkawinan == 'belum_kawin' ? 'selected' : '' }}>Belum Kawin</option>
+                                                <option value="kawin" {{ $user->status_perkawinan == 'kawin' ? 'selected' : '' }}>Kawin</option>
+                                                <option value="cerai" {{ $user->status_perkawinan == 'cerai' ? 'selected' : '' }}>Cerai</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="tanggal_perkawinan_atau_perceraian" class="form-label">Tanggal Perkawinan atau Perceraian</label>
+                                            <input type="date" class="form-control" value="{{ $user->tanggal_perkawinan_atau_perceraian }}" id="tanggal_perkawinan_atau_perceraian" name="tanggal_perkawinan_atau_perceraian">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="status_hubungan_keluarga" class="form-label">Status Hubungan Keluarga</label>
+                                            <select class="form-select" id="status_hubungan_keluarga" name="status_hubungan_keluarga" required>
+                                                <option value="kepala_keluarga" {{ $user->status_hubungan_keluarga == 'kepala_keluarga' ? 'selected' : '' }}>Kepala Keluarga</option>
+                                                <option value="istri" {{ $user->status_hubungan_keluarga == 'istri' ? 'selected' : '' }}>Istri</option>
+                                                <option value="anak" {{ $user->status_hubungan_keluarga == 'anak' ? 'selected' : '' }}>Anak</option>
+                                            </select>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Update</button>
+                                    </form>
                                 </div>
                             </div>
+                        </div>
+                    </div>
 
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
+
         </div>
     </div>
 </div>

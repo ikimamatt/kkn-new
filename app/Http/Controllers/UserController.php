@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\FamilyCard;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
@@ -21,18 +22,22 @@ class UserController extends Controller
             return redirect()->back()->withErrors(['familyCard' => 'Family Card not found']);
         }
 
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'nik' => 'required|unique:users,nik|digits:16',
-            'tanggal_lahir' => 'required|date',
-            'jenis_kelamin' => 'required|in:L,P',
-            'tempat_lahir' => 'required',
-            'jenis_pekerjaan' => 'required',
-            'status_perkawinan' => 'required|in:belum_kawin,kawin,cerai',
-            'status_hubungan_keluarga' => 'required|in:kepala_keluarga,istri,anak',
-            'password' => 'required|min:6',
-        ]);
+        try {
+            $request->validate([
+                'name' => 'required|unique:users,name',
+                'email' => 'required|email|unique:users,email',
+                'nik' => 'required|unique:users,nik|digits:16',
+                'tanggal_lahir' => 'required|date',
+                'jenis_kelamin' => 'required|in:L,P',
+                'tempat_lahir' => 'required',
+                'jenis_pekerjaan' => 'required',
+                'status_perkawinan' => 'required|in:belum_kawin,kawin,cerai',
+                'status_hubungan_keluarga' => 'required|in:kepala_keluarga,istri,anak',
+                'password' => 'required|min:6',
+            ]);
+        } catch (ValidationException $e) {
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        }
 
         $user = new User();
         $user->family_card_id = $familyCard->id;

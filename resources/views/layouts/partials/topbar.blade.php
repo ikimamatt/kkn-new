@@ -8,29 +8,29 @@
                         <i data-feather="menu" class="noti-icon"></i>
                     </button>
                 </li>
-                <li class="d-none d-lg-block">
+                {{-- <li class="d-none d-lg-block">
                     <div class="position-relative topbar-search">
                         <input type="text" class="form-control bg-light bg-opacity-75 border-light ps-4"
                                placeholder="Search...">
                         <i class="mdi mdi-magnify fs-16 position-absolute text-muted top-50 translate-middle-y ms-2"></i>
                     </div>
-                </li>
+                </li> --}}
             </ul>
             <ul class="list-unstyled topnav-menu mb-0 d-flex align-items-center">
-                
+
                 <li class="d-none d-sm-flex">
                     <button type="button" class="btn nav-link" data-toggle="fullscreen">
                         <i data-feather="maximize" class="align-middle fullscreen noti-icon"></i>
                     </button>
                 </li>
 
-                <li class="dropdown notification-list topbar-dropdown">
+                {{-- <li class="dropdown notification-list topbar-dropdown">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                         <i data-feather="bell" class="noti-icon"></i>
                         <span class="badge bg-danger rounded-circle noti-icon-badge">9</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end dropdown-lg">
-        
+
                         <!-- item-->
                         <div class="dropdown-item noti-title">
                             <h5 class="m-0">
@@ -41,9 +41,9 @@
                                 </span>Notification
                             </h5>
                         </div>
-        
+
                         <div class="noti-scroll" data-simplebar>
-        
+
                             <!-- item-->
                             <a href="javascript:void(0);" class="dropdown-item notify-item text-muted link-primary active">
                                 <div class="notify-icon">
@@ -57,7 +57,7 @@
                                     <small class="fs-14">Completed <span class="text-reset">Improve workflow in Figma</span></small>
                                 </p>
                             </a>
-        
+
                             <!-- item-->
                             <a href="javascript:void(0);" class="dropdown-item notify-item text-muted link-primary">
                                 <div class="notify-icon">
@@ -68,7 +68,7 @@
                                         <p class="notify-details">Olivia McGuire</p>
                                         <small class="text-muted">1 min ago</small>
                                     </div>
-                                    
+
                                     <div class="d-flex mt-2 align-items-center">
                                         <div class="notify-sub-icon">
                                             <i class="mdi mdi-download-box text-dark"></i>
@@ -82,11 +82,11 @@
 
                                 </div>
                             </a>
-        
+
                             <!-- item-->
                             <a href="javascript:void(0);" class="dropdown-item notify-item text-muted link-primary">
                                 <div class="notify-icon">
-                                    <img src="/images/users/user-3.jpg" class="img-fluid rounded-circle" alt="" /> 
+                                    <img src="/images/users/user-3.jpg" class="img-fluid rounded-circle" alt="" />
                                 </div>
                                 <div class="notify-content">
                                     <div class="d-flex align-items-center justify-content-between">
@@ -96,7 +96,7 @@
                                     <p class="noti-mentioned p-2 rounded-2 mb-0 mt-2"><span class="text-primary">@Patryk</span> Please make sure that you're....</p>
                                 </div>
                             </a>
-        
+
                             <!-- item-->
                             <a href="javascript:void(0);" class="dropdown-item notify-item text-muted link-primary">
                                 <div class="notify-icon">
@@ -110,7 +110,7 @@
                                     <small class="fs-14">Completed <span class="text-reset">Create new components</span></small>
                                 </p>
                             </a>
-        
+
                             <!-- item-->
                             <a href="javascript:void(0);" class="dropdown-item notify-item text-muted link-primary">
                                 <div class="notify-icon">
@@ -124,11 +124,11 @@
                                     <small class="fs-14">Completed <span class="text-reset">Improve workflow in React</span></small>
                                 </p>
                             </a>
-        
+
                             <!-- item-->
                             <a href="javascript:void(0);" class="dropdown-item notify-item text-muted link-primary">
                                 <div class="notify-icon">
-                                    <img src="/images/users/user-6.jpg" class="img-fluid rounded-circle" alt="" /> 
+                                    <img src="/images/users/user-6.jpg" class="img-fluid rounded-circle" alt="" />
                                 </div>
                                 <div class="notify-content">
                                     <div class="d-flex align-items-center justify-content-between">
@@ -139,42 +139,24 @@
                                 </div>
                             </a>
                         </div>
-        
+
                         <!-- All-->
                         <a href="javascript:void(0);" class="dropdown-item text-center text-primary notify-item notify-all">
                             View all
                             <i class="fe-arrow-right"></i>
                         </a>
                     </div>
-                </li>
+                </li> --}}
 
                 <li class="dropdown notification-list topbar-dropdown">
                     <a class="nav-link dropdown-toggle nav-user me-0" data-bs-toggle="dropdown" href="#" role="button"
                        aria-haspopup="false" aria-expanded="false">
                         <img src="/images/users/user-11.jpg" alt="user-image" class="rounded-circle">
                         <span class="pro-user-name ms-1">
-                            Christian <i class="mdi mdi-chevron-down"></i>
+                            {{ auth()->user()->name }} <i class="mdi mdi-chevron-down"></i>
                         </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end profile-dropdown ">
-                        <!-- item-->
-                        <div class="dropdown-header noti-title">
-                            <h6 class="text-overflow m-0">Welcome !</h6>
-                        </div>
-
-                        <!-- item-->
-                        <a href="{{ route('second', [ 'utility' , 'profile']) }}" class="dropdown-item notify-item">
-                            <i class="mdi mdi-account-circle-outline fs-16 align-middle"></i>
-                            <span>My Account</span>
-                        </a>
-
-                        <!-- item-->
-                        <a href="{{ route('second', [ 'auth' , 'lockscreen']) }}" class="dropdown-item notify-item">
-                            <i class="mdi mdi-lock-outline fs-16 align-middle"></i>
-                            <span>Lock Screen</span>
-                        </a>
-
-                        <div class="dropdown-divider"></div>
 
                         <!-- item-->
                         <a href="{{ route('second', [ 'auth' , 'logout']) }}" class="dropdown-item notify-item">

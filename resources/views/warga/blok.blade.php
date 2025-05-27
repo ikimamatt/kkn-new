@@ -60,6 +60,7 @@
 
 
             <div class="card-body">
+                <div class="table-responsive">
                 <table id="fixed-header-datatable" class="table table-striped dt-responsive nowrap table-striped w-100">
                     <thead>
                         <tr>
@@ -108,6 +109,7 @@
                         @endforeach
                     </tbody>
                 </table>
+            </div>
             </div>
         </div>
     </div>

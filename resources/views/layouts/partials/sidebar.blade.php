@@ -8,18 +8,18 @@
             <div class="logo-box">
                 <a href="{{ route('any', 'index') }}" class="logo logo-light">
                     <span class="logo-sm">
-                        <img src="/images/logo-sm.png" alt="" height="22">
+                        <img src="/images/sirat.png" alt="" height="22">
                     </span>
                     <span class="logo-lg">
-                        <img src="/images/logo-light.png" alt="" height="24">
+                        <img src="/images/sirat.png" alt="" height="24">
                     </span>
                 </a>
                 <a href="{{ route('any', 'index') }}" class="logo logo-dark">
                     <span class="logo-sm">
-                        <img src="/images/logo-sm.png" alt="" height="22">
+                        <img src="/images/sirat.png" alt="" height="22">
                     </span>
                     <span class="logo-lg">
-                        <img src="/images/logo-dark.png" alt="" height="24">
+                        <img src="/images/sirat.png" alt="" height="24">
                     </span>
                 </a>
             </div>
