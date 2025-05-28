@@ -30,7 +30,7 @@
                 <h5 class="card-title mb-0">Data Blok</h5>
             </div>
 
-            <div class="p-1">
+            <div class="p-3 ml-4">
                 <div class="d-flex flex-wrap gap-2">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createBlockModal">Tambah Blok</button>
                 </div>
@@ -75,6 +75,10 @@
                                     <a href="{{ route('house.index', $block->id) }}" class="tp-link">{{ $block->name }}</a>
                                 </td>
                                 <td>
+                                    <a href="{{ route('house.index', $block->id) }}" class="tp-link">
+                                        <button class="btn btn-primary btn-sm">Lihat Daftar Rumah</button>
+                                    </a>
+
                                     <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#updateBlockModal{{ $block->name }}" onclick="editBlock({{ $block->id }})">Edit</button>
                                     <form action="{{ route('block.destroy', $block->id) }}" method="POST" style="display:inline;" id="delete-form-{{ $block->id }}">
                                         @csrf

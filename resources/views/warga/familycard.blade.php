@@ -57,12 +57,16 @@
                                 </td>
 
                                 <td>
-                                    <!-- Tombol Edit dan Hapus -->
-                                    <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editFamilyCardModal{{ $familyCard->id }}">Edit</button>
+                                    <a href="{{ route('user.index', $familyCard->id) }}" class="tp-link">
+                                        <button class="btn btn-primary btn-sm"> lihat anggota keluarga</button>
+                                    </a>
+
+
 
                                     <!-- Tombol Lihat Gambar -->
                                     <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#viewImageModal{{ $familyCard->id }}">Lihat Gambar</button>
-
+                                    <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editFamilyCardModal{{ $familyCard->id }}">Edit</button>
+                                    <!-- Tombol Edit dan Hapus -->
                                     <form action="{{ route('familyCard.destroy', $familyCard->id) }}" method="POST" style="display:inline;" id="delete-form-{{ $familyCard->id }}">
                                         @csrf
                                         @method('DELETE')
