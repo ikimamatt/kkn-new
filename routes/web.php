@@ -83,7 +83,7 @@ Route::middleware('auth')->group(function () {
         // // Route untuk kegiatan
         // Route::get('/superadmin/dashboard/kegiatan', [KegiatanController::class, 'ListKegiatan'])->name('superadmin.kegiatan.index');
         // Route::get('/superadmin/dashboard/absensi', [KegiatanController::class, 'absensi'])->name('superadmin.kegiatan.absensi');
-      
+
         // route untuk emergency
         Route::get('/emergency_units', [EmergencyController::class, 'index'])->name('emergency_units.index');
         Route::get('/emergency_units/create', [EmergencyController::class, 'createUnit'])->name('emergency_units.create');
@@ -99,8 +99,8 @@ Route::middleware('auth')->group(function () {
         Route::put('/emergency_numbers/{number}', [EmergencyController::class, 'updateNumber'])->name('emergency_numbers.update');
         Route::delete('/emergency_numbers/{number}', [EmergencyController::class, 'destroyNumber'])->name('emergency_numbers.destroy');
 
-       
-     
+
+
 
 
     });
@@ -119,6 +119,22 @@ Route::middleware('auth')->group(function () {
     Route::middleware([CheckRole::class . ':warga'])->group(function () {
         Route::get('/warga/dashboard', [WargaController::class, 'index'])->name('warga.dashboard');
         Route::get('/warga/keuangan', [FinanceController::class, 'index'])->name('warga.finance.index');
+
+        Route::get('/emergency_units', [EmergencyController::class, 'index'])->name('emergency_units.index');
+        Route::get('/emergency_units/create', [EmergencyController::class, 'createUnit'])->name('emergency_units.create');
+        Route::post('/emergency_units', [EmergencyController::class, 'storeUnit'])->name('emergency_units.store');
+        Route::get('/emergency_units/{unit}/edit', [EmergencyController::class, 'editUnit'])->name('emergency_units.edit');
+        Route::put('/emergency_units/{unit}', [EmergencyController::class, 'updateUnit'])->name('emergency_units.update');
+        Route::delete('/emergency_units/{unit}', [EmergencyController::class, 'destroyUnit'])->name('emergency_units.destroy');
+
+
+        Route::get('/emergency_units/{unit}/numbers', [EmergencyController::class, 'show'])->name('emergency_units.show');
+        Route::get('/emergency_units/{unit}/numbers/create', [EmergencyController::class, 'createNumber'])->name('emergency_numbers.create');
+        Route::post('/emergency_units/{unit}/numbers', [EmergencyController::class, 'storeNumber'])->name('emergency_numbers.store');
+        Route::get('/emergency_numbers/{number}/edit', [EmergencyController::class, 'editNumber'])->name('emergency_numbers.edit');
+        Route::put('/emergency_numbers/{number}', [EmergencyController::class, 'updateNumber'])->name('emergency_numbers.update');
+        Route::delete('/emergency_numbers/{number}', [EmergencyController::class, 'destroyNumber'])->name('emergency_numbers.destroy');
+
 
     });
 

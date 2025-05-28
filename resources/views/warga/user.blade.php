@@ -88,6 +88,7 @@
                                         <div class="mb-3">
                                             <label for="nik" class="form-label">NIK</label>
                                             <input type="text" class="form-control" pattern="^\d{16}$" maxlength="16" value="{{ $user->nik }}" id="nik" name="nik" required>
+                                            <small>NIK harus terdiri dari 16 angka</small>
                                         </div>
                                         <div class="mb-3">
                                             <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
@@ -123,6 +124,7 @@
                                         <div class="mb-3">
                                             <label for="tanggal_perkawinan_atau_perceraian" class="form-label">Tanggal Perkawinan atau Perceraian</label>
                                             <input type="date" class="form-control" value="{{ $user->tanggal_perkawinan_atau_perceraian }}" id="tanggal_perkawinan_atau_perceraian" name="tanggal_perkawinan_atau_perceraian">
+                                            <small class="text-danger">Opsional</small>
                                         </div>
                                         <div class="mb-3">
                                             <label for="status_hubungan_keluarga" class="form-label">Status Hubungan Keluarga</label>
@@ -176,6 +178,7 @@
                     <div class="mb-3">
                         <label for="nik" class="form-label">Nomor Induk Kependudukan (NIK)</label>
                         <input type="text" pattern="^\d{16}$" maxlength="16" class="form-control" id="nik" name="nik" required>
+                        <small class="text-danger">NIK harus terdiri dari 16 angka</small>
                     </div>
                     <div class="mb-3">
                         <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
@@ -211,6 +214,7 @@
                     <div class="mb-3">
                         <label for="tanggal_perkawinan_atau_perceraian" class="form-label">Tanggal Perkawinan atau Perceraian</label>
                         <input type="date" class="form-control" id="tanggal_perkawinan_atau_perceraian" name="tanggal_perkawinan_atau_perceraian">
+                        <small class="text-danger">Opsional</small>
                     </div>
                     <div class="mb-3">
                         <label for="status_hubungan_keluarga" class="form-label">Status Hubungan Keluarga</label>
