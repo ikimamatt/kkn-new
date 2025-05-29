@@ -29,6 +29,7 @@
             <div class="card-header">
                 <h5 class="card-title mb-0">Nomor Darurat di {{ $unit->unit_name }}</h5>
             </div>
+            @if (auth()->user()->role === 'superadmin' || auth()->user()->role === 'administrator')
 
             <div class="p-1">
                 <div class="d-flex flex-wrap gap-2">
@@ -61,7 +62,7 @@
                     </div>
                 </div>
             </div>
-
+            @endif
             <div class="card-body">
                 <table id="fixed-header-datatable" class="table table-striped dt-responsive nowrap table-striped w-100">
                     <thead>

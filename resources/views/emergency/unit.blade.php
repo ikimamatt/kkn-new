@@ -29,6 +29,7 @@
             <div class="card-header">
                 <h5 class="card-title mb-0">Daftar Unit Darurat</h5>
             </div>
+             @if (auth()->user()->role === 'superadmin' || auth()->user()->role === 'administrator')
 
             <div class="p-1">
                 <div class="d-flex flex-wrap gap-2">
@@ -40,10 +41,12 @@
             <div class="modal fade" id="createUnitModal" tabindex="-1" aria-labelledby="createUnitModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-scrollable">
                     <div class="modal-content">
+
                         <div class="modal-header">
                             <h5 class="modal-title" id="createUnitModalLabel">Tambah Unit Darurat</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
+
                         <div class="modal-body">
                             <form method="POST" action="{{ route('emergency_units.store') }}">
                                 @csrf
@@ -57,6 +60,7 @@
                     </div>
                 </div>
             </div>
+            @endif
 
             <div class="card-body">
                 <table id="fixed-header-datatable" class="table table-striped dt-responsive nowrap table-striped w-100">
@@ -73,6 +77,13 @@
                                     <a href="{{ route('emergency_units.show', $unit->id) }}" class="tp-link">{{ $unit->unit_name }}</a>
                                 </td>
                                 <td>
+                                <a href="{{ route('emergency_units.show', $unit->id) }}" class="tp-link">
+
+                                    <button class="btn btn-info btn-sm">Lihat</button>
+                                </a>
+
+                                 @if (auth()->user()->role === 'superadmin' || auth()->user()->role === 'administrator')
+
                                     <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editUnitModal{{ $unit->id }}">Edit</button>
 
                                     <form action="{{ route('emergency_units.destroy', $unit->id) }}" method="POST" style="display:inline;" id="delete-form-{{ $unit->id }}">
@@ -110,6 +121,7 @@
         </div>
     </div>
 </div>
+@endif
 
                         @endforeach
                     </tbody>

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Block;
@@ -19,7 +18,9 @@ class BlockController extends Controller
     {
         $request->validate(['name' => 'required|unique:blocks,name']);
         Block::create($request->all());
-        return redirect()->route('block.index');
+
+        // Menambahkan pesan sukses
+        return redirect()->route('block.index')->with('success', 'Blok berhasil ditambahkan!');
     }
 
     // Menampilkan form edit blok
@@ -33,14 +34,18 @@ class BlockController extends Controller
     {
         $request->validate(['name' => 'required|unique:blocks,name,' . $block->id]);
         $block->update($request->all());
-        return redirect()->route('block.index');
+
+        // Menambahkan pesan sukses
+        return redirect()->route('block.index')->with('success', 'Blok berhasil diperbarui!');
     }
 
     // Menghapus blok
     public function destroy(Block $block)
     {
         $block->delete();
-        return redirect()->route('block.index');
+
+        // Menambahkan pesan sukses
+        return redirect()->route('block.index')->with('success', 'Blok berhasil dihapus!');
     }
 
     // Mengambil data blok untuk update modal

@@ -8,18 +8,18 @@
             <div class="logo-box">
                 <a href="{{ route('any', 'index') }}" class="logo logo-light">
                     <span class="logo-sm">
-                        <img src="/images/logo-sm.png" alt="" height="22">
+                        <img src="/images/sirat.png" alt="" height="22">
                     </span>
                     <span class="logo-lg">
-                        <img src="/images/logo-light.png" alt="" height="24">
+                        <img src="/images/sirat.png" alt="" height="24">
                     </span>
                 </a>
                 <a href="{{ route('any', 'index') }}" class="logo logo-dark">
                     <span class="logo-sm">
-                        <img src="/images/logo-sm.png" alt="" height="22">
+                        <img src="/images/sirat.png" alt="" height="22">
                     </span>
                     <span class="logo-lg">
-                        <img src="/images/logo-dark.png" alt="" height="24">
+                        <img src="/images/sirat.png" alt="" height="24">
                     </span>
                 </a>
             </div>
@@ -35,6 +35,7 @@
                         <span> Dashboard </span>
                     </a>
                 </li>
+                @if (auth()->user()->role === 'superadmin' || auth()->user()->role === 'administrator')
 
                 <li>
                     <a href="{{ route('keuangan') }}"
@@ -43,10 +44,25 @@
                         <span>Keuangan</span>
                     </a>
                 </li>
-
+                @endif
                 <li class="menu-title mt-2">General</li>
+                @if (auth()->user()->role === 'superadmin' || auth()->user()->role === 'administrator')
+                    <li>
+                        <a href="{{ route('block.index') }}">
+                            <i data-feather="table"></i>
+                            <span> Data Blok & Warga </span>
+                        </a>
+                    </li>
 
+                @endif
                 <li>
+                        <a href="{{ route('emergency_units.index') }}">
+                            <i data-feather="alert-circle"></i>
+                            <span> Nomor Darurat </span>
+                        </a>
+                </li>
+
+                {{-- <li>
                     <a href="#sidebarForms" data-bs-toggle="collapse">
                         <i data-feather="briefcase"></i>
                         <span> Forms </span>
@@ -69,48 +85,37 @@
                             </li>
                         </ul>
                     </div>
-                </li>
+                </li> --}}
 
                 <li class="menu-title mt-2">Kegiatan</li>
 
-<li>
-    <a href="#sidebarKegiatan" data-bs-toggle="collapse">
-        <i data-feather="calendar"></i>
-        <span> Kegiatan </span>
-        <span class="menu-arrow"></span>
-    </a>
-    <div class="collapse" id="sidebarKegiatan">
-        <ul class="nav-second-level">
-        <li>
-    <a class="tp-link" href="{{ route('kegiatan.index') }}">
-        List Kegiatan
-    </a>
-</li>
-<li>
-    <a class="tp-link" href="{{ route('kegiatan.absensi') }}">
-        Absensi
-    </a>
-</li>
-
+                <li>
+                    <a href="#sidebarKegiatan" data-bs-toggle="collapse">
+                        <i data-feather="calendar"></i>
+                        <span> Kegiatan </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarKegiatan">
+                        <ul class="nav-second-level">
+                        <li>
+                    <a class="tp-link" href="{{ route('kegiatan.index') }}">
+                        List Kegiatan
+                    </a>
+                </li>
+                <li>
+                    <a class="tp-link" href="{{ route('kegiatan.absensi') }}">
+                        Absensi
+                    </a>
+                </li>
+                        </ul>
+                    </div>
+                </li>
         </ul>
     </div>
 </li>
 
 
-                @if (auth()->user()->role === 'superadmin' || auth()->user()->role === 'administrator')
-                    <li>
-                        <a href="{{ route('block.index') }}">
-                            <i data-feather="table"></i>
-                            <span> Blok </span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('emergency_units.index') }}">
-                            <i data-feather="alert-circle"></i>
-                            <span> Nomor Darurat </span>
-                        </a>
-                    </li>
-                @endif
+
 
             </ul>
 

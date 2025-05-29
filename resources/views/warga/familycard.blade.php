@@ -8,6 +8,8 @@
         'node_modules/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css',
         'node_modules/datatables.net-select-bs5/css/select.bootstrap5.min.css'
     ])
+    <!-- Lightbox CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/lightbox2@2.11.3/dist/css/lightbox.min.css" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -39,6 +41,7 @@
             </div>
 
             <div class="card-body">
+                <div class="table-responsive">
                 <table id="fixed-header-datatable" class="table table-striped dt-responsive nowrap w-100">
                     <thead>
                         <tr>
@@ -54,8 +57,16 @@
                                 </td>
 
                                 <td>
-                                    <!-- Tombol Edit dan Hapus -->
+                                    <a href="{{ route('user.index', $familyCard->id) }}" class="tp-link">
+                                        <button class="btn btn-primary btn-sm"> lihat anggota keluarga</button>
+                                    </a>
+
+
+
+                                    <!-- Tombol Lihat Gambar -->
+                                    <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#viewImageModal{{ $familyCard->id }}">Lihat Gambar</button>
                                     <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editFamilyCardModal{{ $familyCard->id }}">Edit</button>
+                                    <!-- Tombol Edit dan Hapus -->
                                     <form action="{{ route('familyCard.destroy', $familyCard->id) }}" method="POST" style="display:inline;" id="delete-form-{{ $familyCard->id }}">
                                         @csrf
                                         @method('DELETE')
@@ -73,22 +84,48 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <form method="POST" action="{{ route('familyCard.update', $familyCard->id) }}">
+                                            <form method="POST" action="{{ route('familyCard.update', $familyCard->id) }}" enctype="multipart/form-data">
                                                 @csrf
                                                 @method('PUT')
                                                 <div class="mb-3">
                                                     <label for="kk_number" class="form-label">Nomor Kartu Keluarga</label>
                                                     <input type="text" class="form-control" value="{{ $familyCard->kk_number }}" id="kk_number" name="kk_number" required>
                                                 </div>
+                                                <div class="mb-3">
+                                                    <label for="kk_photo" class="form-label">Foto Kartu Keluarga</label>
+                                                    <input type="file" class="form-control" id="kk_photo" name="kk_photo" accept="image/*">
+                                                        <img src="{{ asset('storage/' . $familyCard->kk_photo) }}" alt="Foto Kartu Keluarga" class="img-thumbnail mt-2" width="150">
+                                                </div>
+
                                                 <button type="submit" class="btn btn-primary">Update</button>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- Modal View Image with Lightbox -->
+                            <div class="modal fade" id="viewImageModal{{ $familyCard->id }}" tabindex="-1" aria-labelledby="viewImageModalLabel{{ $familyCard->id }}" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="viewImageModalLabel{{ $familyCard->id }}">Lihat Foto Kartu Keluarga</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body text-center">
+                                            <!-- Link gambar menggunakan Lightbox -->
+                                            <a href="{{ asset('storage/' . $familyCard->kk_photo) }}" data-lightbox="family-card-image{{ $familyCard->id }}" data-title="Foto Kartu Keluarga">
+                                                <img src="{{ asset('storage/' . $familyCard->kk_photo) }}" alt="Foto Kartu Keluarga" class="img-fluid" width="400">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         @endforeach
                     </tbody>
                 </table>
+            </div>
             </div>
         </div>
     </div>
@@ -103,11 +140,18 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{ route('familyCard.store', $house->id) }}">
+                <form method="POST" action="{{ route('familyCard.store', $house->id) }}" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
                         <label for="kk_number" class="form-label">Nomor Kartu Keluarga</label>
-                        <input type="text" class="form-control" id="kk_number" name="kk_number" required>
+                        <input type="text" class="form-control" id="kk_number" pattern="^\d{16}$" maxlength="16" name="kk_number" required>
+                        <div class="invalid-feedback">
+                            Nomor Kartu Keluarga harus terdiri dari 16 digit angka.
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="kk_photo" class="form-label">Foto Kartu Keluarga</label>
+                        <input type="file" class="form-control" id="kk_photo" name="kk_photo" accept="image/*">
                     </div>
                     <button type="submit" class="btn btn-primary">Simpan</button>
                 </form>
@@ -119,4 +163,6 @@
 
 @section('script')
     @vite([ 'resources/js/pages/datatable.init.js'])
+    <!-- Lightbox JS -->
+    <script src="https://cdn.jsdelivr.net/npm/lightbox2@2.11.3/dist/js/lightbox.min.js"></script>
 @endsection
