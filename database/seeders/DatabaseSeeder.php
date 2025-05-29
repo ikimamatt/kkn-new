@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
             // FamilyCardUserSeeder::class,
             EmergencySeeder::class,
             UserSeeder::class,
-            FinanceSeeder::class,
+            // FinanceSeeder::class,
 
         ]);
     }
