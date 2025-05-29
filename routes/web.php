@@ -46,7 +46,6 @@ Route::middleware('auth')->group(function () {
                 'update' => 'superadmin.finance.update',
                 'destroy' => 'superadmin.finance.destroy',
             ]);
-        Route::get('/superadmin/keuangan/export', [SuperadminFinanceController::class, 'export'])->name('superadmin.finance.export');
 
         Route::get('/superadmin/dashboard', [SuperAdminController::class, 'index'])->name('superadmin.dashboard');
 
@@ -162,21 +161,22 @@ Route::middleware('auth')->group(function () {
 Route::group(['prefix' => '/', 'middleware' => 'auth'], function () {
     // Route::get('', [RoutingController::class, 'index'])->name('root');
 
+    Route::get('/keuangan/export', [SuperadminFinanceController::class, 'export'])->name('finance.export');
     Route::get('/keuangan', function () {
     })->middleware(['auth', 'redirect.by.role'])->name('keuangan');
     Route::get('/emergency_units', [EmergencyController::class, 'index'])->name('emergency_units.index');
-        Route::get('/emergency_units/create', [EmergencyController::class, 'createUnit'])->name('emergency_units.create');
-        Route::post('/emergency_units', [EmergencyController::class, 'storeUnit'])->name('emergency_units.store');
-        Route::get('/emergency_units/{unit}/edit', [EmergencyController::class, 'editUnit'])->name('emergency_units.edit');
-        Route::put('/emergency_units/{unit}', [EmergencyController::class, 'updateUnit'])->name('emergency_units.update');
-        Route::delete('/emergency_units/{unit}', [EmergencyController::class, 'destroyUnit'])->name('emergency_units.destroy');
+    Route::get('/emergency_units/create', [EmergencyController::class, 'createUnit'])->name('emergency_units.create');
+    Route::post('/emergency_units', [EmergencyController::class, 'storeUnit'])->name('emergency_units.store');
+    Route::get('/emergency_units/{unit}/edit', [EmergencyController::class, 'editUnit'])->name('emergency_units.edit');
+    Route::put('/emergency_units/{unit}', [EmergencyController::class, 'updateUnit'])->name('emergency_units.update');
+    Route::delete('/emergency_units/{unit}', [EmergencyController::class, 'destroyUnit'])->name('emergency_units.destroy');
 
-        Route::get('/emergency_units/{unit}/numbers', [EmergencyController::class, 'show'])->name('emergency_units.show');
-        Route::get('/emergency_units/{unit}/numbers/create', [EmergencyController::class, 'createNumber'])->name('emergency_numbers.create');
-        Route::post('/emergency_units/{unit}/numbers', [EmergencyController::class, 'storeNumber'])->name('emergency_numbers.store');
-        Route::get('/emergency_numbers/{number}/edit', [EmergencyController::class, 'editNumber'])->name('emergency_numbers.edit');
-        Route::put('/emergency_numbers/{number}', [EmergencyController::class, 'updateNumber'])->name('emergency_numbers.update');
-        Route::delete('/emergency_numbers/{number}', [EmergencyController::class, 'destroyNumber'])->name('emergency_numbers.destroy');
+    Route::get('/emergency_units/{unit}/numbers', [EmergencyController::class, 'show'])->name('emergency_units.show');
+    Route::get('/emergency_units/{unit}/numbers/create', [EmergencyController::class, 'createNumber'])->name('emergency_numbers.create');
+    Route::post('/emergency_units/{unit}/numbers', [EmergencyController::class, 'storeNumber'])->name('emergency_numbers.store');
+    Route::get('/emergency_numbers/{number}/edit', [EmergencyController::class, 'editNumber'])->name('emergency_numbers.edit');
+    Route::put('/emergency_numbers/{number}', [EmergencyController::class, 'updateNumber'])->name('emergency_numbers.update');
+    Route::delete('/emergency_numbers/{number}', [EmergencyController::class, 'destroyNumber'])->name('emergency_numbers.destroy');
 
 
     Route::get('/home', fn() => view('index'))->name('home');

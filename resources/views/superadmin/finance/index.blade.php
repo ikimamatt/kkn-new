@@ -122,7 +122,7 @@
                                     data-bs-target="#modalKeuangan">
                                     Tambah Data
                                 </button>
-                                <a href="{{ route('superadmin.finance.export') }}"class="btn btn-success">Export Excel</a>
+                                <a href="{{ route('finance.export') }}"class="btn btn-success">Export Excel</a>
                             </div>
                             <div class="d-flex align-items-center justify-content-center flex-column me-xl-4 me-0">
                                 <div class="mb-2">

@@ -49,7 +49,6 @@
                                         <th>Total (Rp.)</th>
                                         <th>Saldo (Rp.)</th>
                                         <th>Keterangan</th>
-                                        <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-center">
@@ -67,37 +66,15 @@
                                             <td><strong>{{ number_format($finance->running_balance, 0, ',', '.') }}</strong>
                                             </td>
                                             <td>{{ $finance->description ?? '-' }}</td>
-                                            <td>
-                                                <div class="d-flex gap-2 justify-content-center">
-                                                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
-                                                        data-bs-target="#modalKeuangan" data-id="{{ $finance->id }}"
-                                                        data-date="{{ $finance->date }}" data-type="{{ $finance->type }}"
-                                                        data-category="{{ $finance->category }}"
-                                                        data-item_name="{{ $finance->item_name }}"
-                                                        data-quantity="{{ $finance->quantity }}"
-                                                        data-unit_price="{{ $finance->unit_price }}"
-                                                        data-description="{{ $finance->description }}">
-                                                        <i data-feather="edit"></i>
-                                                    </button>
-                                                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                                                        data-bs-target="#confirmDelete-{{ $finance->id }}">
-                                                        <i data-feather="trash"></i>
-                                                    </button>
-                                                </div>
-
-                                                {{-- Delete Modal --}}
-                                                <x-confirm-delete-modal id="confirmDelete-{{ $finance->id }}"
-                                                    :action="route('superadmin.finance.destroy', $finance->id)"
-                                                    message="Yakin ingin menghapus item '{{ $finance->item_name }}'?" />
-                                            </td>
-
                                         </tr>
                                     @endforeach
                                 </tbody>
                             </table>
                         </div>
                         <div
-                            class="mt-3 d-flex align-items-center justify-content-lg-end justify-content-center me-xl-4 me-0">
+                            class="d-flex justify-content-between align-items-center mt-3 flex-column-reverse flex-md-row gap-2 gap-md-0">
+                            <a href="{{ route('finance.export') }}"class="btn btn-success">Export Excel</a>
+
                             <div class="d-flex align-items-center flex-column">
                                 <div class="mb-2">
                                     Menampilkan {{ $finances->firstItem() }} hingga {{ $finances->lastItem() }} dari
