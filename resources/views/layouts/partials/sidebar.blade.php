@@ -35,7 +35,6 @@
                         <span> Dashboard </span>
                     </a>
                 </li>
-                @if (auth()->user()->role === 'superadmin' || auth()->user()->role === 'administrator')
 
                 <li>
                     <a href="{{ route('keuangan') }}"
@@ -44,7 +43,7 @@
                         <span>Keuangan</span>
                     </a>
                 </li>
-                @endif
+
                 <li class="menu-title mt-2">General</li>
                 @if (auth()->user()->role === 'superadmin' || auth()->user()->role === 'administrator')
                     <li>
