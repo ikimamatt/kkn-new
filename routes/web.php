@@ -132,7 +132,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/kegiatan/upload/{id}', [KegiatanController::class, 'uploadFoto'])->name('kegiatan.upload');
     Route::put('/kegiatan/update/{id}', [KegiatanController::class, 'update'])->name('kegiatan.update');
     Route::delete('/kegiatan/delete/{id}', [KegiatanController::class, 'destroy'])->name('kegiatan.delete');
-    
 
 
     //route untuk absensi
