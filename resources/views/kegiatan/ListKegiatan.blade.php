@@ -21,50 +21,102 @@
 @endif
 
 <div class="card-body mt-3 table-responsive">
-<table class="table table-bordered table-striped table-hover">
-    <thead>
-        <tr>
-            <th>Nama Kegiatan</th>
-            <th>Tanggal</th>
-            <th>Deskripsi</th>
-            <th>Dokumentasi</th>
-            <th>absensi</th>
-            @if(auth()->user()->role !== 'warga')
-                <th>Aksi</th>
-            @endif
-        </tr>
-    </thead>
+<table class="table table-bordered table-striped">
     <tbody>
     @foreach ($kegiatan as $item)
     <tr>
-        <td>{{ $item->nama_kegiatan }}</td>
-        <td>{{ $item->tanggal }}</td>
-        <td>{{ $item->deskripsi }}</td>
-        <td>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-2 overflow-auto" style="max-width: 100%; white-space: nowrap;">
-  @foreach (json_decode($item->dokumentasi ?? '[]', true) as $img)
-    <div class="col">
-      <img src="{{ asset('storage/' . $img) }}" class="img-fluid rounded" alt="Dokumentasi">
+    <!-- Baris 1: Nama, Tanggal, Deskripsi -->
+    <td colspan="5">
+        <strong>{{ $item->nama_kegiatan }}</strong><br>
+        <small>{{ $item->tanggal }}</small><br>
+        <p>{{ $item->deskripsi }}</p>
+    </td>
+    @if(auth()->user()->role !== 'warga')
+    <td rowspan="3" class="align-middle text-center" style="vertical-align: middle;">
+    <div class="d-grid gap-2">
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal{{ $item->id }}">
+            <i class="fas fa-upload"></i> Upload Dokumentasi
+        </button>
+        <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#uploadAbsensiModal{{ $item->id }}">
+            Upload Absensi
+        </button>
+    <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editKegiatanModal{{ $item->id }}">
+        Edit
+    </button>
+
+    <form action="{{ route('kegiatan.delete', $item->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus kegiatan ini?');">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="btn btn-danger">Hapus</button>
+    </form>
     </div>
-  @endforeach
-</div>
-        </td>
-        <td>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-2">
-  @foreach (json_decode($item->absensi ?? '[]', true) as $img)
-    <div class="col">
-      <img src="{{ asset('storage/' . $img) }}" class="img-fluid rounded" alt="Absensi">
-    </div>
-  @endforeach
-</div>
-        </td>
-        @if(auth()->user()->role !== 'warga')
-        <td>
-    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal{{ $item->id }}">  <i class="fas fa-upload"></i> Upload Dokumentasi</button>
-    <button class="btn btn-secondary " data-bs-toggle="modal" data-bs-target="#uploadAbsensiModal{{ $item->id }}">Upload Foto Absensi</button>
 </td>
-        @endif
-        </tr>
+
+    @endif
+</tr>
+
+<!-- Baris 2: Dokumentasi -->
+<tr>
+    <td colspan="5">
+        <div class="overflow-auto" style="white-space: nowrap;">
+            @foreach (json_decode($item->dokumentasi ?? '[]', true) as $index => $img)
+                <div class="d-inline-block me-2">
+                    <img src="{{ asset('storage/' . $img) }}"
+                        onerror="this.src='/default.png';"
+                         class="img-fluid rounded"
+                         style="max-height: 100px; cursor: pointer;"
+                         alt="Dokumentasi"
+                         data-bs-toggle="modal"
+                         data-bs-target="#modalDokumentasi{{ $item->id }}_{{ $index }}">
+                </div>
+
+                <!-- Modal Dokumentasi -->
+                <div class="modal fade" id="modalDokumentasi{{ $item->id }}_{{ $index }}" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-xl">
+                        <div class="modal-content bg-transparent border-0">
+                            <div class="modal-body text-center p-0">
+                                <img src="{{ asset('storage/' . $img) }}" class="img-fluid rounded" alt="Dokumentasi">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </td>
+</tr>
+
+<!-- Baris 3: Absensi -->
+<tr>
+    <td colspan="5">
+        <div class="overflow-auto" style="white-space: nowrap;">
+            @foreach (json_decode($item->absensi ?? '[]', true) as $index => $img)
+                <div class="d-inline-block me-2">
+                    <img src="{{ asset('storage/' . $img) }}"
+                         class="img-fluid rounded"
+                         style="max-height: 100px; cursor: pointer;"
+                         alt="Absensi"
+                         data-bs-toggle="modal"
+                         data-bs-target="#modalAbsensi{{ $item->id }}_{{ $index }}">
+                </div>
+
+                <!-- Modal Absensi -->
+                <div class="modal fade" id="modalAbsensi{{ $item->id }}_{{ $index }}" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-xl">
+                        <div class="modal-content bg-transparent border-0">
+                            <div class="modal-body text-center p-0">
+                                <img src="{{ asset('storage/' . $img) }}" class="img-fluid rounded" alt="Absensi">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </td>
+</tr>
+
+<tr>
+    <td colspan="6" style="height: 15px; background-color: #f1f4fb; border:none;"></td>
+</tr>
 
 
 <!-- Modal Upload Foto Per Kegiatan -->
@@ -76,14 +128,14 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('kegiatan.upload', $item->id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('kegiatan.upload', $item->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
                         <label class="form-label">Pilih Foto</label>
                         <input class="form-control" type="file"  name="foto[]" multiple required onchange="previewImage(event, {{ $item->id }}, 'Doc')">
                     </div>
                     <div class="mb-3">
-                        <img id="imagePreviewDoc{{ $item->id }}" src="#" alt="Preview Foto" style="display: none; max-width: 100%; height: auto; border: 1px solid #ddd; padding: 5px;" />
+                        <div id="imagePreviewDoc{{ $item->id }}" src="#" alt="Preview Foto" style="display: none; max-width: 100%; height: auto; border: 1px solid #ddd; padding: 5px;"></div>
 
                     </div>
                     <button type="submit" class="btn btn-primary">Unggah</button>
@@ -92,6 +144,38 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Edit Kegiatan -->
+<div class="modal fade" id="editKegiatanModal{{ $item->id }}" tabindex="-1" aria-labelledby="editKegiatanModalLabel{{ $item->id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Kegiatan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{{ route('kegiatan.update', $item->id) }}">
+                    @csrf
+                    @method('PUT')
+                    <div class="mb-3">
+                        <label class="form-label">Nama Kegiatan</label>
+                        <input type="text" class="form-control" name="nama_kegiatan" value="{{ $item->nama_kegiatan }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tanggal</label>
+                        <input type="date" class="form-control" name="tanggal" value="{{ $item->tanggal }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Deskripsi</label>
+                        <textarea class="form-control" name="deskripsi" required>{{ $item->deskripsi }}</textarea>
+                    </div>
+                    <button type="submit" class="btn btn-warning">Simpan Perubahan</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 
     <!-- Modal Upload Foto Absensi -->
     <div class="modal fade" id="uploadAbsensiModal{{ $item->id }}" tabindex="-1" aria-labelledby="uploadAbsensiModalLabel{{ $item->id }}" aria-hidden="true">
@@ -109,7 +193,7 @@
                             <input class="form-control" type="file" name="foto_absensi" required onchange="previewImage(event, {{ $item->id }}, 'Abs')">
                         </div>
                         <div class="mb-3">
-                            <img id="imagePreviewAbs{{ $item->id }}" src="#" alt="Preview Foto" style="display: none; max-width: 100%; height: auto; border: 1px solid #ddd; padding: 5px;" />
+                            <div id="imagePreviewAbs{{ $item->id }}" src="#" alt="Preview Foto" style="display: none; max-width: 100%; height: auto; border: 1px solid #ddd; padding: 5px;"></div>
                         </div>
                         <button type="submit" class="btn btn-primary">Unggah</button>
                     </form>
@@ -160,16 +244,26 @@
 <script>
 
 function previewImage(event, id, type) {
-    const reader = new FileReader();
-    reader.onload = function() {
-        const img = document.getElementById('imagePreview' + type + id);
-        img.src = reader.result;
-        img.style.display = 'block';
-    };
-    reader.readAsDataURL(event.target.files[0]);
+    const files = event.target.files;
+    const previewContainerId = 'imagePreview' + type + id;
+    const previewContainer = document.getElementById(previewContainerId);
+    
+    previewContainer.innerHTML = '';
+    previewContainer.style.display = 'block';
+
+    for (let i = 0; i < files.length; i++) {
+        const reader = new FileReader();
+        reader.onload = function () {
+            const img = document.createElement('img');
+            img.src = reader.result;
+            img.className = 'img-fluid rounded me-2 mb-2';
+            img.style.maxHeight = '100px';
+            img.style.border = '1px solid #ddd';
+            img.style.padding = '5px';
+            previewContainer.appendChild(img);
+        };
+        reader.readAsDataURL(files[i]);
+    }
 }
-
-
-
 </script>
 @endsection

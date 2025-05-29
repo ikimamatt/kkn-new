@@ -145,6 +145,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/dashboard/kegiatan', [KegiatanController::class, 'store'])->name('kegiatan.store');
     Route::post('/dashboard/kegiatan/{id}/upload', [KegiatanController::class, 'uploadFoto'])->name('kegiatan.upload');
     Route::post('kegiatan/{id}/upload-absensi', [KegiatanController::class, 'uploadAbsensi'])->name('kegiatan.uploadAbsensi');
+    Route::post('/kegiatan/upload/{id}', [KegiatanController::class, 'uploadFoto'])->name('kegiatan.upload');
+    Route::put('/kegiatan/update/{id}', [KegiatanController::class, 'update'])->name('kegiatan.update');
+    Route::delete('/kegiatan/delete/{id}', [KegiatanController::class, 'destroy'])->name('kegiatan.delete');
+
 
     //route untuk absensi
     Route::get('/kegiatan/absensi', [KegiatanController::class, 'absensi'])->name('kegiatan.absensi');

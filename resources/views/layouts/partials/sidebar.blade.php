@@ -102,11 +102,6 @@
                         List Kegiatan
                     </a>
                 </li>
-                <li>
-                    <a class="tp-link" href="{{ route('kegiatan.absensi') }}">
-                        Absensi
-                    </a>
-                </li>
                         </ul>
                     </div>
                 </li>
