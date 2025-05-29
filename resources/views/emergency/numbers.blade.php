@@ -69,7 +69,10 @@
                         <tr>
                             <th>Lokasi</th>
                             <th>Nomor Telepon</th>
+                            @if (auth()->user()->role === 'superadmin' || auth()->user()->role === 'administrator')
+
                             <th>Action</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -77,6 +80,8 @@
                             <tr>
                                 <td>{{ $number->location }}</td>
                                 <td>{{ $number->phone_number }}</td>
+                                 @if (auth()->user()->role === 'superadmin' || auth()->user()->role === 'administrator')
+
                                 <td>
                                     <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editNumberModal{{ $number->id }}">Edit</button>
                                     <form action="{{ route('emergency_numbers.destroy', $number->id) }}" method="POST" style="display:inline;" id="delete-form-{{ $number->id }}">
@@ -85,6 +90,7 @@
                                         <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete({{ $number->id }})">Delete</button>
                                     </form>
                                 </td>
+                                @endif
                             </tr>
                             <!-- Modal Edit Number -->
 <div class="modal fade" id="editNumberModal{{ $number->id }}" tabindex="-1" aria-labelledby="editNumberModalLabel" aria-hidden="true">
