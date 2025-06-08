@@ -16,20 +16,37 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="card-title mb-0">Data Keuangan <span class="d-none d-sm-block">RT. 02 Graha
+                            <h5 class="card-title mb-0">Data Keuangan <span class="d-block">RT. 02 Graha
                                     Indah</span></h5>
                             <div class="d-flex align-items-center">
-                                <form method="GET" action="{{ url()->current() }}" class="d-flex align-items-center">
-                                    <label class="me-2">Tampilkan</label>
-                                    <select name="per_page" class="form-select w-auto" onchange="this.form.submit()">
-                                        @foreach ([10, 25, 50, 100] as $size)
-                                            <option value="{{ $size }}"
-                                                {{ request('per_page') == $size ? 'selected' : '' }}>
-                                                {{ $size }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    <label class="ms-2">data</label>
+                                <form method="GET" action="{{ url()->current() }}"
+                                    class="d-flex flex-column flex-sm-row align-items-center gap-2 gap-sm-4">
+                                    <div class="d-flex align-items-center">
+                                        <label class="me-2">Tampilkan</label>
+                                        <select name="per_page" class="form-select w-auto" onchange="this.form.submit()">
+                                            @foreach ([10, 25, 50, 100] as $size)
+                                                <option value="{{ $size }}"
+                                                    {{ request('per_page') == $size ? 'selected' : '' }}>
+                                                    {{ $size }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <label class="ms-2">data</label>
+                                    </div>
+
+                                    {{-- Filter bulan --}}
+                                    <div class="d-flex align-items-center">
+                                        <label class="me-2">Bulan</label>
+                                        <select name="month" class="form-select w-auto" onchange="this.form.submit()">
+                                            <option value="">Semua</option>
+                                            @foreach (range(1, 12) as $m)
+                                                <option value="{{ $m }}"
+                                                    {{ request('month') == $m ? 'selected' : '' }}>
+                                                    {{ \Carbon\Carbon::create()->month($m)->translatedFormat('F') }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </form>
                             </div>
                         </div>
