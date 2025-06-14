@@ -26,8 +26,8 @@ class KegiatanController extends Controller
             'nama_kegiatan' => 'required|string|max:255',
             'tanggal' => 'required|date',
             'deskripsi' => 'required|string',
-            'dokumentasi.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'absensi' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'dokumentasi.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+            'absensi' => 'nullable|image|mimes:jpeg,png,jpg',
         ]);
 
         $dokumentasiPaths = [];
@@ -78,8 +78,8 @@ class KegiatanController extends Controller
             'nama_kegiatan' => 'required|string|max:255',
             'tanggal' => 'required|date',
             'deskripsi' => 'required|string',
-            'dokumentasi_baru.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'absensi_baru' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'dokumentasi_baru.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+            'absensi_baru' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
             'removed_dokumentasi_paths' => 'nullable|string',
             'removed_absensi_paths' => 'nullable|string',
         ]);
