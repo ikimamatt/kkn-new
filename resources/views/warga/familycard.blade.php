@@ -51,6 +51,7 @@
                     </thead>
                     <tbody>
                         @foreach ($familyCards as $familyCard)
+                        @unless ($familyCard->kk_number == '0000000000000000' || $familyCard->kk_number == '0000000000000001')
                             <tr>
                                 <td>
                                     <a href="{{ route('user.index', $familyCard->id) }}" class="tp-link">{{ $familyCard->kk_number }}</a>
@@ -60,9 +61,6 @@
                                     <a href="{{ route('user.index', $familyCard->id) }}" class="tp-link">
                                         <button class="btn btn-primary btn-sm"> lihat anggota keluarga</button>
                                     </a>
-
-
-
                                     <!-- Tombol Lihat Gambar -->
                                     <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#viewImageModal{{ $familyCard->id }}">Lihat Gambar</button>
                                     <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editFamilyCardModal{{ $familyCard->id }}">Edit</button>
@@ -121,7 +119,7 @@
                                     </div>
                                 </div>
                             </div>
-
+                            @endunless
                         @endforeach
                     </tbody>
                 </table>

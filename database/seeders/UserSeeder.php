@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
         // Inisialisasi Faker untuk menghasilkan data acak
         $faker = Faker::create();
 
-        // Menambahkan SuperAdmin dan Administrator
+        // Menambahkan SuperAdmin dan warga
         $superAdminFamilyCard = FamilyCard::create([
             'kk_number' => '0000000000000000', // Nomor KK untuk SuperAdmin
             'house_id' => 1, // Ganti sesuai ID rumah yang relevan
@@ -47,7 +47,7 @@ class UserSeeder extends Seeder
         ]);
 
         $adminFamilyCard = FamilyCard::create([
-            'kk_number' => '0000000000000001', // Nomor KK untuk Administrator
+            'kk_number' => '0000000000000001', // Nomor KK untuk warga
             'house_id' => 2, // Ganti sesuai ID rumah yang relevan
         ]);
 
