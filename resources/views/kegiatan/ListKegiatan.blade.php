@@ -149,17 +149,28 @@
                         <small class="text-muted">Upload foto baru untuk ditambahkan ke dokumentasi yang sudah ada.</small>
                     </div>
                     <div class="mb-3" id="imagePreviewDoceditDoc{{ $item->id }}" style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
+
+                    {{-- Bagian Dokumentasi Saat Ini dengan Tombol Hapus --}}
                     @if (!empty(json_decode($item->dokumentasi ?? '[]')))
                         <div class="mb-3">
                             <label class="form-label">Dokumentasi Saat Ini:</label>
-                            <div style="display: flex; flex-wrap: wrap; gap: 5px;">
-                                @foreach (json_decode($item->dokumentasi, true) as $img)
-                                    <img src="{{ asset('storage/' . $img) }}"
-                                         onerror="this.src='/default.png';"
-                                         class="img-thumbnail"
-                                         style="width: 70px; height: 70px; object-fit: cover;">
+                            <div id="currentDokumentasiContainer{{ $item->id }}" style="display: flex; flex-wrap: wrap; gap: 5px;">
+                                @foreach (json_decode($item->dokumentasi, true) as $index => $img)
+                                    <div class="position-relative d-inline-block p-1 border" id="dokumentasi-{{ $item->id }}-{{ $index }}">
+                                        <img src="{{ asset('storage/' . $img) }}"
+                                             onerror="this.src='/default.png';"
+                                             class="img-thumbnail"
+                                             style="width: 70px; height: 70px; object-fit: cover;">
+                                        <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 rounded-circle p-0"
+                                                style="width: 20px; height: 20px; font-size: 0.7rem; line-height: 1; display: flex; align-items: center; justify-content: center;"
+                                                onclick="removeImage('dokumentasi-{{ $item->id }}-{{ $index }}', '{{ $img }}', 'removed_dokumentasi_paths{{ $item->id }}')">
+                                            &times;
+                                        </button>
+                                    </div>
                                 @endforeach
                             </div>
+                            {{-- Input tersembunyi untuk melacak gambar yang dihapus --}}
+                            <input type="hidden" name="removed_dokumentasi_paths" id="removed_dokumentasi_paths{{ $item->id }}" value="">
                         </div>
                     @endif
 
@@ -169,16 +180,27 @@
                         <small class="text-muted">Upload foto baru untuk mengganti atau menambahkan absensi.</small>
                     </div>
                     <div class="mb-3" id="imagePreviewAbseditAbs{{ $item->id }}" style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
+
+                    {{-- Bagian Absensi Saat Ini dengan Tombol Hapus --}}
                     @if (!empty(json_decode($item->absensi ?? '[]')))
                         <div class="mb-3">
                             <label class="form-label">Absensi Saat Ini:</label>
-                            <div style="display: flex; flex-wrap: wrap; gap: 5px;">
-                                @foreach (json_decode($item->absensi, true) as $img)
-                                    <img src="{{ asset('storage/' . $img) }}"
-                                         class="img-thumbnail"
-                                         style="width: 70px; height: 70px; object-fit: cover;">
+                            <div id="currentAbsensiContainer{{ $item->id }}" style="display: flex; flex-wrap: wrap; gap: 5px;">
+                                @foreach (json_decode($item->absensi, true) as $index => $img)
+                                    <div class="position-relative d-inline-block p-1 border" id="absensi-{{ $item->id }}-{{ $index }}">
+                                        <img src="{{ asset('storage/' . $img) }}"
+                                             class="img-thumbnail"
+                                             style="width: 70px; height: 70px; object-fit: cover;">
+                                        <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 rounded-circle p-0"
+                                                style="width: 20px; height: 20px; font-size: 0.7rem; line-height: 1; display: flex; align-items: center; justify-content: center;"
+                                                onclick="removeImage('absensi-{{ $item->id }}-{{ $index }}', '{{ $img }}', 'removed_absensi_paths{{ $item->id }}')">
+                                            &times;
+                                        </button>
+                                    </div>
                                 @endforeach
                             </div>
+                            {{-- Input tersembunyi untuk melacak gambar yang dihapus --}}
+                            <input type="hidden" name="removed_absensi_paths" id="removed_absensi_paths{{ $item->id }}" value="">
                         </div>
                     @endif
 
@@ -264,6 +286,19 @@ function previewImage(event, id, type) {
     }
 }
 
+function removeImage(elementId, imagePath, hiddenInputId) {
+    const elementToRemove = document.getElementById(elementId);
+    if (elementToRemove) {
+        elementToRemove.remove(); 
+
+        const hiddenInput = document.getElementById(hiddenInputId);
+        let removedPaths = hiddenInput.value ? JSON.parse(hiddenInput.value) : [];
+        removedPaths.push(imagePath);
+        hiddenInput.value = JSON.stringify(removedPaths);
+    }
+}
+
+
 const galleryModal = document.getElementById('galleryModal');
 galleryModal.addEventListener('show.bs.modal', function (event) {
     const button = event.relatedTarget;
@@ -306,4 +341,3 @@ galleryModal.addEventListener('show.bs.modal', function (event) {
 @endsection
 
 @endsection
-
