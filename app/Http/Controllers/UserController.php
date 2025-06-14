@@ -24,8 +24,8 @@ class UserController extends Controller
 
         try {
             $request->validate([
-                'name' => 'required|unique:users,name',
-                'email' => 'required|email|unique:users,email',
+                'name' => 'required',
+                // 'email' => 'required|email|unique:users,email',
                 'nik' => 'required|unique:users,nik|digits:16',
                 'tanggal_lahir' => 'required|date',
                 'jenis_kelamin' => 'required|in:L,P',
@@ -33,7 +33,7 @@ class UserController extends Controller
                 'jenis_pekerjaan' => 'required',
                 'status_perkawinan' => 'required|in:belum_kawin,kawin,cerai',
                 'status_hubungan_keluarga' => 'required|in:kepala_keluarga,istri,anak',
-                'password' => 'required|min:6',
+                // 'password' => 'required|min:6',
             ]);
         } catch (ValidationException $e) {
             return redirect()->back()->withErrors($e->errors())->withInput();
@@ -67,7 +67,7 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:users,email,' . $user->id,
+            // 'email' => 'required|email|unique:users,email,' . $user->id,
             'nik' => 'required|unique:users,nik,' . $user->id . '|digits:16',
             'tanggal_lahir' => 'required|date',
             'jenis_kelamin' => 'required|in:L,P',
