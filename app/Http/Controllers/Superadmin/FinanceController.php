@@ -13,8 +13,13 @@ class FinanceController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->get('per_page', 10);
+        $month = $request->get('month');
 
         $query = Finance::with('user')->orderBy('date')->orderBy('id');
+
+        if ($month) {
+            $query->whereMonth('date', $month);
+        }
 
         // Hitung running balance
         $allFinances = $query->get();
